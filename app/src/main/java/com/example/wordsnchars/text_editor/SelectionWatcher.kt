@@ -1,10 +1,8 @@
-package com.example.xconspectus.ui.text_editor
+package com.example.wordsnchars.text_editor
 
 import android.text.Selection
 import android.text.SpanWatcher
 import android.text.Spannable
-import android.text.style.BackgroundColorSpan
-import android.util.Log
 import android.widget.EditText
 
 class SelectionWatcher(

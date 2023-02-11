@@ -1,4 +1,4 @@
-package com.example.xconspectus.ui.text_editor.selectors
+package com.example.wordsnchars.text_editor.selectors
 
 import android.os.Bundle
 import android.util.Log
@@ -9,8 +9,8 @@ import android.view.ViewGroup
 import androidx.core.view.get
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
-import com.example.xconspectus.R
-import com.example.xconspectus.databinding.TextEditorHighlightColorSelectorBinding
+import com.example.wordsnchars.R
+import com.example.wordsnchars.databinding.TextEditorHighlightColorSelectorBinding
 import com.example.xconspectus.ui.text_editor.ViewModelTextEditor
 
 

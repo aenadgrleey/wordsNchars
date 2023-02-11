@@ -1,14 +1,13 @@
-package com.example.xconspectus.ui.text_editor
+package com.example.wordsnchars.text_editor
 
 import android.text.Spannable
 import android.text.style.BackgroundColorSpan
 import android.util.Log
 import android.widget.EditText
 import androidx.lifecycle.viewModelScope
+import com.example.xconspectus.ui.text_editor.ViewModelTextEditor
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
-import java.text.FieldPosition
-import kotlin.math.absoluteValue
 
 class TextEditor(private val viewModel: ViewModelTextEditor, private val editText: EditText) {
     private val TAG = "TextEditor"

@@ -13,8 +13,14 @@
         tools:targetApi="31">
         <activity
             android:name=".MainActivity"
+            android:exported="false"
+            android:theme="@style/Theme.WordsNchars.NoActionBar"
+            android:windowSoftInputMode="adjustResize"/>
+        <activity
+            android:name=".conspectus_adding.TextConspectusAddingActivity"
             android:exported="true"
             android:label="@string/app_name"
+            android:windowSoftInputMode="adjustResize"
             android:theme="@style/Theme.WordsNchars.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

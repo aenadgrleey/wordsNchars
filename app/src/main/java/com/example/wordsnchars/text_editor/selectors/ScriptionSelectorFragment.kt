@@ -1,4 +1,4 @@
-package com.example.xconspectus.ui.text_editor.selectors
+package com.example.wordsnchars.text_editor.selectors
 
 import android.os.Bundle
 import android.text.style.SubscriptSpan
@@ -10,8 +10,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
-import com.example.xconspectus.R
-import com.example.xconspectus.databinding.TextEditorScriptionSelectBinding
+import com.example.wordsnchars.databinding.TextEditorScriptionSelectBinding
 import com.example.xconspectus.ui.text_editor.ViewModelTextEditor
 
 class ScriptionSelectorFragment : Fragment() {

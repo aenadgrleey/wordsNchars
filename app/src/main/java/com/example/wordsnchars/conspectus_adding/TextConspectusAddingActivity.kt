@@ -1,12 +1,11 @@
-package com.example.xconspectus.ui.conspectus_adding
+package com.example.wordsnchars.conspectus_adding
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.activity.viewModels
-import com.example.xconspectus.R
-import com.example.xconspectus.databinding.ActivityTextEditorBinding
-import com.example.xconspectus.ui.text_editor.TextEditor
-import com.example.xconspectus.ui.text_editor.TextWatcherTextEditor
+import com.example.wordsnchars.R
+import com.example.wordsnchars.databinding.ActivityTextEditorBinding
+import com.example.wordsnchars.text_editor.TextEditor
 import com.example.xconspectus.ui.text_editor.ViewModelTextEditor
 
 class TextConspectusAddingActivity : AppCompatActivity() {

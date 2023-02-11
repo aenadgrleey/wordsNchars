@@ -1,9 +1,10 @@
-package com.example.xconspectus.ui.text_editor
+package com.example.wordsnchars.text_editor
 
 import android.text.Editable
 import android.text.TextWatcher
 import android.text.style.BackgroundColorSpan
 import android.util.Log
+import com.example.xconspectus.ui.text_editor.ViewModelTextEditor
 
 class TextWatcherTextEditor(
     private val viewModel: ViewModelTextEditor,

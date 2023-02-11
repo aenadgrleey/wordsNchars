@@ -1,4 +1,4 @@
-package com.example.xconspectus.ui.text_editor.selectors.size_selector
+package com.example.wordsnchars.text_editor.selectors.size_selector
 
 import alirezat775.lib.carouselview.Carousel
 import alirezat775.lib.carouselview.CarouselListener
@@ -12,7 +12,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
-import com.example.xconspectus.databinding.TextEditorSizeSelectBinding
+import com.example.wordsnchars.databinding.TextEditorSizeSelectBinding
 import com.example.xconspectus.ui.text_editor.ViewModelTextEditor
 
 class SizeSelectFragment : Fragment() {

@@ -1,11 +1,9 @@
-package com.example.xconspectus.ui.text_editor
+package com.example.wordsnchars.text_editor
 
-import android.graphics.Typeface
 import android.graphics.Typeface.*
 import android.os.Bundle
 import android.text.style.SubscriptSpan
 import android.text.style.SuperscriptSpan
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,8 +11,10 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
-import com.example.xconspectus.R
-import com.example.xconspectus.databinding.TextEditorToolbarBinding
+import com.example.wordsnchars.R
+import com.example.wordsnchars.databinding.TextEditorToolbarBinding
+
+import com.example.xconspectus.ui.text_editor.ViewModelTextEditor
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.onEach
 

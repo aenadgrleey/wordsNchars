@@ -1,4 +1,4 @@
-package com.example.xconspectus.ui.text_editor
+package com.example.wordsnchars.text_editor
 
 import android.text.style.BackgroundColorSpan
 

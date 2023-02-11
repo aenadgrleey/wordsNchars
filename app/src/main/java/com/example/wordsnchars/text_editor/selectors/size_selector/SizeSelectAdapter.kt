@@ -1,13 +1,14 @@
-package com.example.xconspectus.ui.text_editor.selectors.size_selector
+package com.example.wordsnchars.text_editor.selectors.size_selector
 
 import alirezat775.lib.carouselview.CarouselAdapter
 import alirezat775.lib.carouselview.CarouselModel
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.TextView
-import com.example.xconspectus.databinding.TextEditorSizeSelectEmptyItemBinding
-import com.example.xconspectus.databinding.TextEditorSizeSelectItemBinding
-import com.example.xconspectus.ui.text_editor.selectors.size_selector.SizeSelectFragment.*
+import com.example.wordsnchars.databinding.TextEditorSizeSelectEmptyItemBinding
+import com.example.wordsnchars.databinding.TextEditorSizeSelectItemBinding
+import com.example.wordsnchars.text_editor.selectors.size_selector.SizeSelectFragment.*
+
 
 class SizeSelectAdapter : CarouselAdapter() {
     private val emptyItemFlag = 0

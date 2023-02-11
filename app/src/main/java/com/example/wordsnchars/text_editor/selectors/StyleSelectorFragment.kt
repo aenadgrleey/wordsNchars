@@ -1,16 +1,14 @@
-package com.example.xconspectus.ui.text_editor.selectors
+package com.example.wordsnchars.text_editor.selectors
 
 import android.graphics.Typeface.*
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.compose.ui.text.font.Typeface
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
-import com.example.xconspectus.R
-import com.example.xconspectus.databinding.TextEditorStyleSelectBinding
+import com.example.wordsnchars.databinding.TextEditorStyleSelectBinding
 import com.example.xconspectus.ui.text_editor.ViewModelTextEditor
 
 class StyleSelectorFragment : Fragment() {

@@ -5,6 +5,7 @@ import android.text.style.BackgroundColorSpan
 import android.text.style.SubscriptSpan
 import android.text.style.SuperscriptSpan
 import androidx.lifecycle.ViewModel
+import com.example.wordsnchars.text_editor.Border
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 
