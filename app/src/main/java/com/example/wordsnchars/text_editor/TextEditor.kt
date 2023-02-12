@@ -17,7 +17,7 @@ class TextEditor(private val viewModel: ViewModelTextEditor, private val editTex
     init {
         editText.addTextChangedListener(textWatcher)
 
-        //not implemented yet
+        //not implemented fully yet
         editText.text.setSpan(
             SelectionWatcher(
                 editText,
@@ -30,25 +30,25 @@ class TextEditor(private val viewModel: ViewModelTextEditor, private val editTex
         )
 
         editText.text.setSpan(
-            RemovalWatcher(viewModel.previouslySetSpans),
+            RemovalWatcher(this@TextEditor::onSpanDelete),
             0, 0, Spannable.SPAN_INCLUSIVE_INCLUSIVE
         )
 
         viewModel.highlightColor.onEach {
             Log.v(TAG, "changing insertion point to ${editText.selectionStart}")
             viewModel.currentSpansStarts[BackgroundColorSpan::class.java] = editText.selectionStart
-            textWatcher.insertLength = 1
+            textWatcher.insertLength = 0
         }.launchIn(viewModel.viewModelScope)
     }
 
     private fun onCursorChange(): Unit {
         val delta = editText.selectionStart - viewModel.cursorPosition
         viewModel.cursorPosition = editText.selectionStart
-        Log.v(this::class.java.toString(), "cursor change ${editText.selectionStart}")
+        Log.v(TAG, "cursor change ${editText.selectionStart}")
         //detect radical change
-        if (delta != textWatcher.delta) {
+        if (!textWatcher.triggered) {
             Log.v(
-                this::class.java.toString(),
+                TAG,
                 "detected radical change in cursor position ${viewModel.cursorPosition} $delta ${textWatcher.delta}"
             )
             viewModel.currentSpansStarts.run {
@@ -58,12 +58,21 @@ class TextEditor(private val viewModel: ViewModelTextEditor, private val editTex
             }
             textWatcher.insertLength = 0
         }
+        textWatcher.triggered = false
+
     }
 
     private fun onSelect(): Unit {
         Log.v(
             this::class.java.toString(),
-            "segesg ${editText.selectionStart} ${editText.selectionEnd}"
+            "select ${editText.selectionStart} ${editText.selectionEnd}"
         )
+    }
+
+    private fun onSpanDelete(span: Any?, border: Border): Unit {
+        if (span == null) return
+        if (span::class.java in viewModel.previouslySetSpans.keys) {
+            viewModel.previouslySetSpans[span::class.java]!!.add(Pair(span, border))
+        }
     }
 }

@@ -10,7 +10,7 @@ plugins {
 apply plugin: 'kotlin-kapt'
 
 android {
-    namespace 'com.example.wordsnchars'
+    namespace 'com.aendgrleey.wordsnchars'
     compileSdkVersion = 33
     ksp {
         arg('room.schemaLocation', "$projectDir/schemas")

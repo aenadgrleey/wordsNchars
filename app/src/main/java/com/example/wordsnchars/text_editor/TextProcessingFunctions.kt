@@ -29,6 +29,6 @@ class Border(val start: Int, val end: Int) {
 }
 
 infix fun Int.In(border: Border): Boolean {
-    return border.start < this && this < border.end
+    return border.start <= this && this <= border.end
 
 }

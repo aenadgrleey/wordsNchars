@@ -47,7 +47,7 @@ fun Editable.setSpan(span: Any, border: Border): Boolean {
     ) return false
     println("setting span: $span ${(span as BackgroundColorSpan).backgroundColor}, $border")
     setSpan(
-        span, border.start, minOf(border.end, length), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+        span, minOf(border.start, length), minOf(border.end, length), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
     )
     return true
 }

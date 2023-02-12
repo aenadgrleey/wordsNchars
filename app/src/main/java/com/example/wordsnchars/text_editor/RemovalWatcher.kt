@@ -5,7 +5,7 @@ import android.text.Spannable
 import android.util.Log
 
 class RemovalWatcher(
-    private val previouslySetSpans: MutableMap<Any, MutableSet<Pair<Any, Border>>>,
+    private val onDelete: (Any?, Border) -> Unit
 ) : SpanWatcher {
     private val TAG = "RemovalWatcher"
 
@@ -13,14 +13,11 @@ class RemovalWatcher(
     }
 
     override fun onSpanRemoved(text: Spannable?, what: Any?, start: Int, end: Int) {
-        if (what == null) return
-        if (what::class.java in previouslySetSpans.keys) {
-            previouslySetSpans[what::class.java]!!.add(Pair(what, Border(start, end)))
-            Log.v(
-                TAG,
-                "cached span that system removed for no reason span:$what start:$start end:$end"
-            )
-        }
+        onDelete(what, Border(start, end))
+        Log.v(
+            TAG,
+            "span that system removed for no reason span:$what start:$start end:$end"
+        )
     }
 
     override fun onSpanChanged(

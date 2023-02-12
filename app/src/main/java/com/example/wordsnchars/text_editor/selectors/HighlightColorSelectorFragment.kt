@@ -16,7 +16,7 @@ import com.example.xconspectus.ui.text_editor.ViewModelTextEditor
 
 class HighlightColorSelectorFragment : Fragment() {
     private lateinit var binding: TextEditorHighlightColorSelectorBinding
-    val viewModel: ViewModelTextEditor by activityViewModels()
+    private val viewModel: ViewModelTextEditor by activityViewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
