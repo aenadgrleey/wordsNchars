@@ -2,14 +2,20 @@ plugins {
     id 'com.android.library'
     id 'org.jetbrains.kotlin.android'
     id "kotlin-kapt"
-    id 'com.google.devtools.ksp' version "$ksp_version"
     id "kotlin-android"
+    id 'maven-publish'
 
 }
 
 android {
     namespace 'com.wordsnchars'
     compileSdk 33
+
+    publishing {
+        singleVariant('release') {
+            withSourcesJar()
+        }
+    }
 
     defaultConfig {
         minSdk 24
@@ -51,18 +57,13 @@ dependencies {
     implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.5.1'
     implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.5.1'
     implementation 'androidx.core:core-ktx:1.10.0-alpha02'
-    kapt 'org.xerial:sqlite-jdbc:3.40.1.0' // Only for computer with M1 CPU
 
-    implementation('com.google.devtools.ksp:symbol-processing-api:1.8.10-1.0.9')
     implementation 'androidx.core:core-ktx:1.10.0-alpha02'
     implementation 'androidx.appcompat:appcompat:1.6.0'
     implementation 'com.google.android.material:material:1.9.0-alpha01'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
     implementation 'androidx.navigation:navigation-fragment-ktx:2.5.3'
     implementation 'androidx.navigation:navigation-ui-ktx:2.5.3'
-    testImplementation 'junit:junit:4.13.2'
-    androidTestImplementation 'androidx.test.ext:junit:1.1.5'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
     implementation 'com.google.android.material:material:1.9.0-alpha01'
     implementation 'androidx.recyclerview:recyclerview:1.2.1'
     implementation 'androidx.cardview:cardview:1.0.0'
@@ -88,4 +89,17 @@ dependencies {
     //carousel view
     implementation 'com.github.alirezat775:carousel-view:1.1.1'
 
+}
+
+afterEvaluate {
+    publishing {
+        publications {
+            release(MavenPublication) {
+                from components.release
+                groupId = 'com.github.aenadgrleey'
+                artifactId = 'wordsnchars'
+                version = '1.0'
+            }
+        }
+    }
 }

@@ -1,4 +1,4 @@
-package com.wordsnchars.text_editor.selectors
+package com.wordsnchars.ui_xml.selectors
 
 import android.graphics.Typeface.*
 import android.os.Bundle

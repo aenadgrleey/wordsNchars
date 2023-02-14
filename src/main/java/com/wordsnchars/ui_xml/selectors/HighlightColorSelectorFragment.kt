@@ -1,4 +1,4 @@
-package com.wordsnchars.text_editor.selectors
+package com.wordsnchars.ui_xml.selectors
 
 import android.os.Bundle
 import android.util.Log

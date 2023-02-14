@@ -1,4 +1,4 @@
-package com.wordsnchars.text_editor
+package com.wordsnchars.ui_xml
 
 import android.graphics.Typeface.*
 import android.os.Bundle
@@ -13,6 +13,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.wordsnchars.R
 import com.wordsnchars.databinding.TextEditorToolbarBinding
+import com.wordsnchars.text_editor.ViewModelTextEditor
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.onEach
 

@@ -1,4 +1,4 @@
-package com.wordsnchars.text_editor.selectors.size_selector
+package com.wordsnchars.ui_xml.selectors.size_selector
 
 import alirezat775.lib.carouselview.CarouselAdapter
 import alirezat775.lib.carouselview.CarouselModel
@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import com.wordsnchars.databinding.TextEditorSizeSelectEmptyItemBinding
 import com.wordsnchars.databinding.TextEditorSizeSelectItemBinding
-import com.wordsnchars.text_editor.selectors.size_selector.SizeSelectFragment.*
+import com.wordsnchars.ui_xml.selectors.size_selector.SizeSelectFragment.*
 
 
 class SizeSelectAdapter : CarouselAdapter() {

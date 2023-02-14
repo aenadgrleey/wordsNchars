@@ -1,4 +1,4 @@
-package com.wordsnchars.text_editor.selectors.size_selector
+package com.wordsnchars.ui_xml.selectors.size_selector
 
 import alirezat775.lib.carouselview.Carousel
 import alirezat775.lib.carouselview.CarouselListener

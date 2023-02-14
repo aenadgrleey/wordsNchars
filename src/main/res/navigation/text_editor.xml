@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/text_editor_toolbar"
-        android:name="com.wordsnchars.text_editor.ToolbarTextEditor"
+        android:name="com.wordsnchars.ui_xml.ToolbarTextEditor"
         android:label="TextEditorToolbar"
         tools:layout="@layout/text_editor_toolbar">
         <action
@@ -25,22 +25,22 @@
     </fragment>
     <fragment
         android:id="@+id/size_select"
-        android:name="com.wordsnchars.text_editor.selectors.size_selector.SizeSelectFragment"
+        android:name="com.wordsnchars.ui_xml.selectors.size_selector.SizeSelectFragment"
         android:label="SizeSelect"
         tools:layout="@layout/text_editor_size_select"/>
     <fragment
         android:id="@+id/highlight_color_select"
-        android:name="com.wordsnchars.text_editor.selectors.HighlightColorSelectorFragment"
+        android:name="com.wordsnchars.ui_xml.selectors.HighlightColorSelectorFragment"
         android:label="text_editor_highlight_color_selector"
         tools:layout="@layout/text_editor_highlight_color_selector" />
     <fragment
         android:id="@+id/style_select"
-        android:name="com.wordsnchars.text_editor.selectors.StyleSelectorFragment"
+        android:name="com.wordsnchars.ui_xml.selectors.StyleSelectorFragment"
         android:label="StyleSelectorFragment"
         tools:layout="@layout/text_editor_style_select"/>
     <fragment
         android:id="@+id/scription_select"
-        android:name="com.wordsnchars.text_editor.selectors.ScriptionSelectorFragment"
+        android:name="com.wordsnchars.ui_xml.selectors.ScriptionSelectorFragment"
         android:label="text_editor_sub_or_superscription"
         tools:layout="@layout/text_editor_scription_select" />
 </navigation>
