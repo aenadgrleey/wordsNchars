@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal"
+    android:weightSum="6"
+    android:id="@+id/holder"
+    tools:context=".text_editor.selectors.HighlightColorSelectorFragment">
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/colorMissing"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="7dp"
+        android:layout_weight="1"
+        android:backgroundTint="@color/light_gray"
+        app:icon="@drawable/baseline_block_24" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/colorYellow"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="7dp"
+        android:layout_weight="1"
+        android:backgroundTint="?colorPrimary"/>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/colorPurple"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="7dp"
+        android:layout_weight="1"
+        android:backgroundTint="@color/purple_200"/>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/colorBlue"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="7dp"
+        android:layout_weight="1"
+        android:backgroundTint="@color/blue"/>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/colorPink"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="7dp"
+        android:layout_weight="1"
+        android:backgroundTint="@color/pink"/>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/colorGreen"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="7dp"
+        android:layout_weight="1"
+        android:backgroundTint="@color/thirdOnPalette"/>
+
+
+</androidx.appcompat.widget.LinearLayoutCompat>
