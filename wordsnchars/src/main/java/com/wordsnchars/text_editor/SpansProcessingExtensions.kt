@@ -14,7 +14,7 @@ fun Any.copySpan(): Any {
 //compares and returns true if span has same attributes as the one being compared with
 fun Any.hasSameAttributes(spanToCompare: Any): Boolean {
     if (this::class.java == BackgroundColorSpan::class.java
-        && spanToCompare!!::class.java == BackgroundColorSpan::class.java
+        && spanToCompare::class.java == BackgroundColorSpan::class.java
     ) return (this as BackgroundColorSpan).backgroundColor == (spanToCompare as BackgroundColorSpan).backgroundColor
 
     throw Exception("Tried to compare unsupported spans $this $spanToCompare")

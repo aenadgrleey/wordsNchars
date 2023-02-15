@@ -12,21 +12,21 @@ import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.wordsnchars.R
-import com.wordsnchars.databinding.TextEditorToolbarBinding
+import com.wordsnchars.databinding.TextEditorHomeBinding
 import com.wordsnchars.text_editor.ViewModelTextEditor
 
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.onEach
 
-class ToolbarTextEditor : Fragment() {
-    private lateinit var binding: TextEditorToolbarBinding
+internal class ToolbarTextEditor : Fragment() {
+    private lateinit var binding: TextEditorHomeBinding
     private val viewModel: ViewModelTextEditor by activityViewModels()
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?,
     ): View? {
-        binding = TextEditorToolbarBinding.inflate(inflater)
+        binding = TextEditorHomeBinding.inflate(inflater)
         binding.style.setOnClickListener {
             viewModel.boldToggle()
         }

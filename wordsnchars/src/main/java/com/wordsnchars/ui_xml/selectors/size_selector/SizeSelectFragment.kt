@@ -1,4 +1,4 @@
-package com.wordsnchars.text_editor.selectors.size_selector
+package com.wordsnchars.ui_xml.selectors.size_selector
 
 import alirezat775.lib.carouselview.Carousel
 import alirezat775.lib.carouselview.CarouselListener
@@ -15,7 +15,7 @@ import androidx.navigation.fragment.findNavController
 import com.wordsnchars.databinding.TextEditorSizeSelectBinding
 import com.wordsnchars.text_editor.ViewModelTextEditor
 
-class SizeSelectFragment : Fragment() {
+internal class SizeSelectFragment : Fragment() {
 
     private val viewModel: ViewModelTextEditor by activityViewModels()
 

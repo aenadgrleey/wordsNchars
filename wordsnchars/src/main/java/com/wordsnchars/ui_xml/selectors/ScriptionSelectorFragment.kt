@@ -1,4 +1,4 @@
-package com.wordsnchars.text_editor.selectors
+package com.wordsnchars.ui_xml.selectors
 
 import android.os.Bundle
 import android.text.style.SubscriptSpan
@@ -12,7 +12,7 @@ import androidx.navigation.fragment.findNavController
 import com.wordsnchars.databinding.TextEditorScriptionSelectBinding
 import com.wordsnchars.text_editor.ViewModelTextEditor
 
-class ScriptionSelectorFragment : Fragment() {
+internal class ScriptionSelectorFragment : Fragment() {
     private lateinit var binding: TextEditorScriptionSelectBinding
     private val viewModel: ViewModelTextEditor by activityViewModels()
 

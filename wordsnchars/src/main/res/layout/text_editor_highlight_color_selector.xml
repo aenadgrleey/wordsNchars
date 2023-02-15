@@ -7,7 +7,7 @@
     android:orientation="horizontal"
     android:weightSum="6"
     android:id="@+id/holder"
-    tools:context=".text_editor.selectors.HighlightColorSelectorFragment">
+    tools:context=".ui_xml.selectors.HighlightColorSelectorFragment">
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/colorMissing"

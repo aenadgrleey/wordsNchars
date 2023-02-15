@@ -1,4 +1,4 @@
-package com.example.wordsnchars.conspectus_adding
+package com.example.wordsnchars
 
 import android.os.Bundle
 import androidx.activity.viewModels

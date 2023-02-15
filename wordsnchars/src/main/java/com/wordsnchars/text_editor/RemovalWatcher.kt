@@ -2,6 +2,7 @@ package com.wordsnchars.text_editor
 
 import android.text.SpanWatcher
 import android.text.Spannable
+import android.text.style.BackgroundColorSpan
 import android.util.Log
 
 class RemovalWatcher(
@@ -28,5 +29,9 @@ class RemovalWatcher(
         nstart: Int,
         nend: Int,
     ) {
+        if (what == null) return
+        if (what::class.java == BackgroundColorSpan::class.java) {
+            println("$what $ostart $oend")
+        }
     }
 }

@@ -1,4 +1,4 @@
-package com.wordsnchars.text_editor.selectors
+package com.wordsnchars.ui_xml.selectors
 
 import android.graphics.Typeface.*
 import android.os.Bundle
@@ -11,7 +11,7 @@ import androidx.navigation.fragment.findNavController
 import com.wordsnchars.databinding.TextEditorStyleSelectBinding
 import com.wordsnchars.text_editor.ViewModelTextEditor
 
-class StyleSelectorFragment : Fragment() {
+internal class StyleSelectorFragment : Fragment() {
     private lateinit var binding: TextEditorStyleSelectBinding
     private val viewModel: ViewModelTextEditor by activityViewModels()
 

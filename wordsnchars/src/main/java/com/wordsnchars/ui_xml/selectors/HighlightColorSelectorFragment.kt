@@ -1,4 +1,4 @@
-package com.wordsnchars.text_editor.selectors
+package com.wordsnchars.ui_xml.selectors
 
 import android.os.Bundle
 import android.util.Log
@@ -13,7 +13,7 @@ import com.wordsnchars.R
 import com.wordsnchars.databinding.TextEditorHighlightColorSelectorBinding
 import com.wordsnchars.text_editor.ViewModelTextEditor
 
-class HighlightColorSelectorFragment : Fragment() {
+internal class HighlightColorSelectorFragment : Fragment() {
     private lateinit var binding: TextEditorHighlightColorSelectorBinding
     private val viewModel: ViewModelTextEditor by activityViewModels()
 

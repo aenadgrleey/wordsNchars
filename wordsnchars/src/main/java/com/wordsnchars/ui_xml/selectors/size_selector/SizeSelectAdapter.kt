@@ -1,4 +1,4 @@
-package com.wordsnchars.text_editor.selectors.size_selector
+package com.wordsnchars.ui_xml.selectors.size_selector
 
 import alirezat775.lib.carouselview.CarouselAdapter
 import alirezat775.lib.carouselview.CarouselModel
@@ -7,10 +7,10 @@ import android.view.ViewGroup
 import android.widget.TextView
 import com.wordsnchars.databinding.TextEditorSizeSelectEmptyItemBinding
 import com.wordsnchars.databinding.TextEditorSizeSelectItemBinding
-import com.wordsnchars.text_editor.selectors.size_selector.SizeSelectFragment.*
+import com.wordsnchars.ui_xml.selectors.size_selector.SizeSelectFragment.*
 
 
-class SizeSelectAdapter : CarouselAdapter() {
+internal class SizeSelectAdapter : CarouselAdapter() {
     private val emptyItemFlag = 0
     private val normalItemFlag = 1
 
@@ -30,7 +30,7 @@ class SizeSelectAdapter : CarouselAdapter() {
     override fun onBindViewHolder(holder: CarouselViewHolder, position: Int) {
         when (holder) {
             is MyCarouselHolder -> {
-                (holder as MyCarouselHolder).content.text =
+                holder.content.text =
                     (getItems()[position] as MultiplierModel).multiplier.toString()
             }
         }
