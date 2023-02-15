@@ -23,7 +23,6 @@ class TextEditor(
     init {
         editText.addTextChangedListener(textWatcher)
 
-        //mainly done with inserting
         editText.text.setSpan(
             SelectionWatcher(
                 editText,
@@ -41,22 +40,16 @@ class TextEditor(
         )
 
         viewModel.highlightColor.onEach {
-            Log.v(TAG, "changing insertion point to ${editText.selectionStart}")
             viewModel.currentSpansStarts[BackgroundColorSpan::class.java] = editText.selectionStart
             textWatcher.insertLength = 0
         }.launchIn(viewModel.viewModelScope)
     }
 
-    private fun onCursorChange(): Unit {
-        val delta = editText.selectionStart - viewModel.cursorPosition
-        viewModel.cursorPosition = editText.selectionStart
-        Log.v(TAG, "cursor change ${editText.selectionStart}")
-        //detect radical change
+    private fun onCursorChange(cursorPosition: Int): Unit {
+        viewModel.cursorPosition = editText.selectionEnd
+
+        //detect change of cursor position cased not by insert and reset start point of
         if (!textWatcher.triggered) {
-            Log.v(
-                TAG,
-                "detected radical change in cursor position ${viewModel.cursorPosition} $delta ${textWatcher.delta}"
-            )
             viewModel.currentSpansStarts.run {
                 this.keys.forEach {
                     this[it] = editText.selectionStart
@@ -69,10 +62,7 @@ class TextEditor(
     }
 
     private fun onSelect(): Unit {
-        Log.v(
-            this::class.java.toString(),
-            "select ${editText.selectionStart} ${editText.selectionEnd}"
-        )
+        TODO()
     }
 
     private fun onSpanDelete(span: Any?, border: Border): Unit {

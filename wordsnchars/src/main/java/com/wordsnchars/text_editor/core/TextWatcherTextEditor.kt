@@ -6,55 +6,52 @@ import android.text.style.BackgroundColorSpan
 import android.util.Log
 import com.wordsnchars.ViewModelTextEditor
 import com.wordsnchars.text_editor.utils.createGap
-import com.wordsnchars.text_editor.getBorder
+import com.wordsnchars.text_editor.utils.getBorder
 import com.wordsnchars.text_editor.utils.setSpan
 import com.wordsnchars.text_editor.utils.*
 
 class TextWatcherTextEditor(
     private val viewModel: ViewModelTextEditor,
 ) : TextWatcher {
-    var triggered = false
+
     private val TAG = "TextWatcher"
+
+    //gotta get come up with a proper encapsulation
+    var triggered = false
     private var backspacePressed = false
 
-    private var _lengthBefore = 0
-    val lengthBefore get() = _lengthBefore
-    private var _delta = 0
-    val delta get() = _delta
-
-    //remake it for
-    private lateinit var insideBorder: Border
+    //gotta get come up with a proper encapsulation
+    //ahahah it's not gonna work with more than one span))) because here's common insertLength
     var insertLength = 1
-    private var outsideBorder = Border(0, 0)
+    private var lengthBefore = 0
+    private var delta = 0
+    private lateinit var insideBorder: Border
 
 
     override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-        _lengthBefore = s!!.length
+        triggered = true
+        lengthBefore = s!!.length
     }
 
     override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
-        //mark that backspace was pressed
-        backspacePressed = before > count
+        //detect if it was deletion on previous trigger of tw and
         if (backspacePressed) {
-            Log.v(TAG, "backspace press")
-            insertLength = 1
+            insertLength = 0
+            //huh i'm sorry? what is the fucking point of this action
+            //on a back press we reset the map of span starts
+            //actually it seems useless, because we reset it trough texteditor/selectionwatcher,
+            // but i'm afraid to delete it with out a proper list of tests))
             viewModel.currentSpansStarts.clear()
         }
+        backspacePressed = before > count
 
-        _delta = s.length - _lengthBefore
+        delta = s.length - lengthBefore
+        insertLength += delta
 
-        insertLength += _delta
-
-
-        Log.v(
-            TAG,
-            "text is being changed start $start  before $before count $count spanLength $insertLength delta $_delta "
-        )
     }
 
     override fun afterTextChanged(s: Editable) {
 
-        triggered = true
         //highlight
         s.handleModifier(BackgroundColorSpan(viewModel.highlightColor.value))
 
@@ -66,19 +63,20 @@ class TextWatcherTextEditor(
 
         Log.v(TAG, "starting ${associatedSpan::class.java} routine")
 
+        //calculate border for span that is being set
+        //this part should be commented for sure)))
+
         val predictedSpanStart =
             viewModel.currentSpansStarts[associatedSpan::class.java] ?: viewModel.cursorPosition
         insideBorder = Border(predictedSpanStart, predictedSpanStart + insertLength)
 
         viewModel.previouslySetSpans[associatedSpan::class.java].let {
-            Log.v(TAG, "cached spans: ${it?.size}")
-
             while (it?.isNotEmpty() == true) {
                 with(it.last()) {
                     //return span from cache if it's out of new border
-                    if (!(this.second In insideBorder ||
+                    if (!(this.second inside insideBorder ||
                                 //this crutch works only with deleting only one symbol
-                                backspacePressed && viewModel.cursorPosition In insideBorder)
+                                backspacePressed && viewModel.cursorPosition inside insideBorder)
                     ) {
                         this@handleModifier.setSpan(this.first, this.second)
                     }
@@ -87,15 +85,13 @@ class TextWatcherTextEditor(
             }
         }
 
-        //create gap in text to set new spans in the given range
         this.createGap(associatedSpan::class.java, this@TextWatcherTextEditor.insideBorder)
 
 
-        //set new span with given borders
         this.setSpan(associatedSpan, this@TextWatcherTextEditor.insideBorder)
         Log.v(TAG, "ended ${associatedSpan::class.java} routine")
 
-        //checking that there are only proper span
+        //checking that there are only proper span, thing for debug build
         this.getSpans(0, length, associatedSpan::class.java).forEach {
             Log.v(TAG, "string has $it ${getBorder(it)}")
         }

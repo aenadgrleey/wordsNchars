@@ -13,6 +13,7 @@ class ViewModelTextEditor : ViewModel() {
     var previouslySetSpans: MutableMap<Any, MutableSet<Pair<Any, Border>>> = mutableMapOf(
         BackgroundColorSpan::class.java to mutableSetOf(Pair(BackgroundColorSpan(0), Border(0, 0)))
     )
+    //i'm not sure if it's a good idea to store this in vm
     var cursorPosition = 0
     var currentSpansStarts = mutableMapOf<Any, Int>(
         BackgroundColorSpan::class.java to 0

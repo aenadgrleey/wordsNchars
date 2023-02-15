@@ -1,8 +1,7 @@
-package com.wordsnchars.text_editor
+package com.wordsnchars.text_editor.utils
 
 import android.text.Editable
 import android.text.style.BackgroundColorSpan
-import com.wordsnchars.text_editor.utils.Border
 
 //returns a copy of a span
 fun Any.copySpan(): Any {
@@ -23,5 +22,6 @@ fun Any.hasSameAttributes(spanToCompare: Any): Boolean {
 }
 
 fun Editable.getBorder(span: Any): Border {
+    //may initialize with border(-1, -1)
     return Border(this.getSpanStart(span), this.getSpanEnd(span))
 }

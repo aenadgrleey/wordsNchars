@@ -3,8 +3,6 @@ package com.wordsnchars.text_editor.utils
 import android.text.Editable
 import android.text.Spannable
 import android.util.Log
-import com.wordsnchars.text_editor.copySpan
-import com.wordsnchars.text_editor.hasSameAttributes
 
 
 //find out if span is being inserted into another one of same type and create a gap in given borders
@@ -16,7 +14,7 @@ fun Editable.createGap(spanType: Any, border: Border) {
         val spanBorder = Border(spanStart, spanEnd)
         Log.v("hui", "creating gap in span $span $spanBorder")
         //if span is
-        if (border isOverlayedBy spanBorder) {
+        if (border isOverlappedBy spanBorder) {
             val beforeSpanBorder = Border(spanStart, border.start)
             val afterSpanBorder = Border(border.end, spanEnd)
             this.removeSpan(span)
