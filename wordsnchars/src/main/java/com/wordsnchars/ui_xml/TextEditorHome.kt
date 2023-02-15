@@ -27,9 +27,7 @@ internal class TextEditorHome : Fragment() {
         savedInstanceState: Bundle?,
     ): View? {
         binding = TextEditorHomeBinding.inflate(inflater)
-        binding.style.setOnClickListener {
-            viewModel.boldToggle()
-        }
+
         binding.size.setOnClickListener {
             findNavController().navigate(R.id.size_select)
         }
