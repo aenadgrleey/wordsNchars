@@ -6,7 +6,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
-import com.example.wordsnchars.databinding.FragmentSecondBinding
+import com.aendgrleey.wordsnchars.R
+import com.aendgrleey.wordsnchars.databinding.FragmentSecondBinding
 
 /**
  * A simple [Fragment] subclass as the second destination in the navigation.

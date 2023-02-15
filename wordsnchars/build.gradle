@@ -1,19 +1,23 @@
 plugins {
-    id 'com.android.application'
+    id 'com.android.library'
     id 'org.jetbrains.kotlin.android'
     id "kotlin-android"
     id("androidx.navigation.safeargs.kotlin")
     id "kotlin-kapt"
-    id 'com.google.devtools.ksp' version "$ksp_version"
+    id 'maven-publish'
 }
 
 apply plugin: 'kotlin-kapt'
 
+
 android {
-    namespace 'com.aendgrleey.wordsnchars'
+    namespace 'com.wordsnchars'
     compileSdkVersion = 33
-    ksp {
-        arg('room.schemaLocation', "$projectDir/schemas")
+
+    publishing {
+        singleVariant('release') {
+            withSourcesJar()
+        }
     }
 
     buildFeatures {
@@ -21,14 +25,13 @@ android {
         dataBinding = true
     }
 
+
     defaultConfig {
-        applicationId "com.example.wordsnchars"
         minSdk 24
         targetSdk 33
-        versionCode 1
-        versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles "consumer-rules.pro"
     }
 
     buildTypes {
@@ -44,20 +47,18 @@ android {
     kotlinOptions {
         jvmTarget = '1.8'
     }
-    buildFeatures {
-        dataBinding true
-        viewBinding true
-    }
 }
+
 dependencies {
+
     implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.5.1'
     implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.5.1'
     implementation 'androidx.core:core-ktx:1.10.0-alpha02'
     kapt 'org.xerial:sqlite-jdbc:3.40.1.0' // Only for computer with M1 CPU
 
-    implementation('com.google.devtools.ksp:symbol-processing-api:1.8.20-Beta-1.0.9')
+    implementation('com.google.devtools.ksp:symbol-processing-api:1.8.10-1.0.9')
     implementation 'androidx.core:core-ktx:1.10.0-alpha02'
-    implementation 'androidx.appcompat:appcompat:1.6.1'
+    implementation 'androidx.appcompat:appcompat:1.6.0'
     implementation 'com.google.android.material:material:1.9.0-alpha01'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
     implementation 'androidx.navigation:navigation-fragment-ktx:2.5.3'
@@ -68,20 +69,6 @@ dependencies {
     implementation 'com.google.android.material:material:1.9.0-alpha01'
     implementation 'androidx.recyclerview:recyclerview:1.2.1'
     implementation 'androidx.cardview:cardview:1.0.0'
-
-    //RoomDatabase
-    def room_version = '2.5.0'
-
-    implementation("androidx.room:room-runtime:$room_version")
-
-    // To use Kotlin Symbol Processing (KSP)
-    ksp("androidx.room:room-compiler:$room_version")
-
-    // optional - Kotlin Extensions and Coroutines support for Room
-    implementation("androidx.room:room-ktx:$room_version")
-
-    // optional - Test helpers
-    testImplementation("androidx.room:room-testing:2.5.0")
 
     //Navigation:
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
@@ -102,7 +89,17 @@ dependencies {
     implementation("androidx.navigation:navigation-compose:$nav_version")
 
     implementation 'com.github.alirezat775:carousel-view:1.1.1'
+}
 
-    implementation project(':wordsnchars')
-
+afterEvaluate {
+    publishing {
+        publications {
+            release(MavenPublication) {
+                from components.release
+                groupId = 'com.github.aenadgrleey'
+                artifactId = 'wordsnchars'
+                version = '1.0'
+            }
+        }
+    }
 }

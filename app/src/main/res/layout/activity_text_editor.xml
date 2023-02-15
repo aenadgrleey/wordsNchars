@@ -3,8 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".conspectus_adding.TextConspectusAddingActivity">
+    android:layout_height="match_parent">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraintLayout"
@@ -19,10 +18,10 @@
             android:layout_height="?attr/actionBarSize"
             android:background="?attr/colorPrimary"
             app:layout_constraintEnd_toEndOf="parent"
-            app:titleTextColor="@color/white"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:popupTheme="@style/Theme.WordsNchars.PopupOverlay">
+            app:popupTheme="@style/Theme.WordsNchars.PopupOverlay"
+            app:titleTextColor="@color/white">
 
 
         </androidx.appcompat.widget.Toolbar>

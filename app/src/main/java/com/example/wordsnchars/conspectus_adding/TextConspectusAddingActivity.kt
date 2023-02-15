@@ -1,12 +1,10 @@
 package com.example.wordsnchars.conspectus_adding
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.activity.viewModels
-import com.example.wordsnchars.R
-import com.example.wordsnchars.databinding.ActivityTextEditorBinding
-import com.example.wordsnchars.text_editor.TextEditor
-import com.example.xconspectus.ui.text_editor.ViewModelTextEditor
+import androidx.appcompat.app.AppCompatActivity
+import com.aendgrleey.wordsnchars.databinding.ActivityTextEditorBinding
+import com.wordsnchars.R.drawable
 
 class TextConspectusAddingActivity : AppCompatActivity() {
     private lateinit var binding : ActivityTextEditorBinding
@@ -16,9 +14,9 @@ class TextConspectusAddingActivity : AppCompatActivity() {
         setContentView(binding.root)
         setSupportActionBar(binding.toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        supportActionBar?.setHomeAsUpIndicator(R.drawable.baseline_close_24)
-        val viewModelTextEditor : ViewModelTextEditor by viewModels()
-       TextEditor(viewModelTextEditor, binding.editText)
+        supportActionBar?.setHomeAsUpIndicator(drawable.baseline_close_24)
+        val viewModelTextEditor : com.wordsnchars.text_editor.ViewModelTextEditor by viewModels()
+        com.wordsnchars.text_editor.TextEditor(viewModelTextEditor, binding.editText)
     }
 
     override fun onSupportNavigateUp(): Boolean {
