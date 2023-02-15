@@ -39,23 +39,26 @@ class TextEditor(
             0, 0, Spannable.SPAN_INCLUSIVE_INCLUSIVE
         )
 
+        //detect change of color of highlight reset start point and length of spans
         viewModel.highlightColor.onEach {
             viewModel.currentSpansStarts[BackgroundColorSpan::class.java] = editText.selectionStart
-            textWatcher.insertLength = 0
+            textWatcher.insertLength[BackgroundColorSpan::class.java] = 0
         }.launchIn(viewModel.viewModelScope)
     }
 
     private fun onCursorChange(cursorPosition: Int): Unit {
         viewModel.cursorPosition = editText.selectionEnd
 
-        //detect change of cursor position cased not by insert and reset start point of
+        //detect change of cursor position cased not by insert and reset start point and length of spans
         if (!textWatcher.triggered) {
             viewModel.currentSpansStarts.run {
                 this.keys.forEach {
                     this[it] = editText.selectionStart
                 }
             }
-            textWatcher.insertLength = 0
+            textWatcher.insertLength.keys.forEach {
+                textWatcher.insertLength[it] = 0
+            }
         }
         textWatcher.triggered = false
 

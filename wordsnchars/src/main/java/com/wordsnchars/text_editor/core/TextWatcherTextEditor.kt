@@ -21,8 +21,9 @@ class TextWatcherTextEditor(
     private var backspacePressed = false
 
     //gotta get come up with a proper encapsulation
-    //ahahah it's not gonna work with more than one span))) because here's common insertLength
-    var insertLength = 1
+    var insertLength = mutableMapOf<Any, Int>(
+        BackgroundColorSpan::class.java to 0
+    )
     private var lengthBefore = 0
     private var delta = 0
     private lateinit var insideBorder: Border
@@ -36,17 +37,15 @@ class TextWatcherTextEditor(
     override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
         //detect if it was deletion on previous trigger of tw and
         if (backspacePressed) {
-            insertLength = 0
-            //huh i'm sorry? what is the fucking point of this action
-            //on a back press we reset the map of span starts
-            //actually it seems useless, because we reset it trough texteditor/selectionwatcher,
-            // but i'm afraid to delete it with out a proper list of tests))
+            insertLength.clear()
             viewModel.currentSpansStarts.clear()
         }
         backspacePressed = before > count
 
         delta = s.length - lengthBefore
-        insertLength += delta
+        insertLength.keys.forEach {
+            insertLength[it] = insertLength[it]!! + delta
+        }
 
     }
 
@@ -68,7 +67,7 @@ class TextWatcherTextEditor(
 
         val predictedSpanStart =
             viewModel.currentSpansStarts[associatedSpan::class.java] ?: viewModel.cursorPosition
-        insideBorder = Border(predictedSpanStart, predictedSpanStart + insertLength)
+        insideBorder = Border(predictedSpanStart, predictedSpanStart + insertLength[associatedSpan::class.java]!!)
 
         viewModel.previouslySetSpans[associatedSpan::class.java].let {
             while (it?.isNotEmpty() == true) {

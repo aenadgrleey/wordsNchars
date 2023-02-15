@@ -10,10 +10,10 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 
 class ViewModelTextEditor : ViewModel() {
+    //i'm not sure if it's a good idea to store this in vm
     var previouslySetSpans: MutableMap<Any, MutableSet<Pair<Any, Border>>> = mutableMapOf(
         BackgroundColorSpan::class.java to mutableSetOf(Pair(BackgroundColorSpan(0), Border(0, 0)))
     )
-    //i'm not sure if it's a good idea to store this in vm
     var cursorPosition = 0
     var currentSpansStarts = mutableMapOf<Any, Int>(
         BackgroundColorSpan::class.java to 0
@@ -72,13 +72,6 @@ class ViewModelTextEditor : ViewModel() {
 //            true
 //        } else false
 //    }
-
-    //to be deprecated
-    private var _bold = MutableStateFlow(false)
-    val bold get() = _bold.asStateFlow()
-    fun boldToggle() {
-        _bold.value = !_bold.value
-    }
 
     //style modifier routine
     private var _styled = MutableStateFlow(false)
