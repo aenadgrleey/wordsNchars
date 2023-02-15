@@ -3,6 +3,7 @@ package com.wordsnchars.text_editor.core
 import android.text.Editable
 import android.text.TextWatcher
 import android.text.style.BackgroundColorSpan
+import android.text.style.StyleSpan
 import android.util.Log
 import com.wordsnchars.ViewModelTextEditor
 import com.wordsnchars.text_editor.utils.createGap
@@ -22,7 +23,8 @@ class TextWatcherTextEditor(
 
     //gotta get come up with a proper encapsulation
     var insertLength = mutableMapOf<Any, Int>(
-        BackgroundColorSpan::class.java to 0
+        BackgroundColorSpan::class.java to 0,
+        StyleSpan::class.java to 0
     )
     private var lengthBefore = 0
     private var delta = 0
@@ -50,9 +52,13 @@ class TextWatcherTextEditor(
     }
 
     override fun afterTextChanged(s: Editable) {
+        //starting to applying spans
 
         //highlight
         s.handleModifier(BackgroundColorSpan(viewModel.highlightColor.value))
+
+        //style
+        s.handleModifier(StyleSpan(viewModel.style.value))
 
     }
 
@@ -88,13 +94,13 @@ class TextWatcherTextEditor(
 
 
         this.setSpan(associatedSpan, this@TextWatcherTextEditor.insideBorder)
-        Log.v(TAG, "ended ${associatedSpan::class.java} routine")
 
         //checking that there are only proper span, thing for debug build
         this.getSpans(0, length, associatedSpan::class.java).forEach {
             Log.v(TAG, "string has $it ${getBorder(it)}")
         }
 
+        Log.v(TAG, "ended ${associatedSpan::class.java} routine")
 
     }
 }

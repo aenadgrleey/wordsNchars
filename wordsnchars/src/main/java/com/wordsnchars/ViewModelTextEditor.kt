@@ -1,7 +1,9 @@
 package com.wordsnchars
 
+import android.graphics.Paint.Style
 import android.graphics.Typeface
 import android.text.style.BackgroundColorSpan
+import android.text.style.StyleSpan
 import android.text.style.SubscriptSpan
 import android.text.style.SuperscriptSpan
 import androidx.lifecycle.ViewModel
@@ -12,11 +14,13 @@ import kotlinx.coroutines.flow.asStateFlow
 class ViewModelTextEditor : ViewModel() {
     //i'm not sure if it's a good idea to store this in vm
     var previouslySetSpans: MutableMap<Any, MutableSet<Pair<Any, Border>>> = mutableMapOf(
-        BackgroundColorSpan::class.java to mutableSetOf(Pair(BackgroundColorSpan(0), Border(0, 0)))
+        BackgroundColorSpan::class.java to mutableSetOf(Pair(BackgroundColorSpan(0), Border(0, 0))),
+        StyleSpan::class.java to mutableSetOf(Pair(StyleSpan(0), Border(0, 0)))
     )
     var cursorPosition = 0
     var currentSpansStarts = mutableMapOf<Any, Int>(
-        BackgroundColorSpan::class.java to 0
+        BackgroundColorSpan::class.java to 0,
+        StyleSpan::class.java to 0
     )
 
     //"underline" modifier routine
