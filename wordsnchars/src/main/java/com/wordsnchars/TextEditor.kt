@@ -2,6 +2,7 @@ package com.wordsnchars
 
 import android.text.Spannable
 import android.text.style.BackgroundColorSpan
+import android.text.style.StyleSpan
 import android.util.Log
 import android.widget.EditText
 import androidx.lifecycle.viewModelScope
@@ -39,11 +40,18 @@ class TextEditor(
             0, 0, Spannable.SPAN_INCLUSIVE_INCLUSIVE
         )
 
-        //detect change of color of highlight reset start point and length of spans
+        //detect change of modifier and reset start point and length of spans
+
         viewModel.highlightColor.onEach {
             viewModel.currentSpansStarts[BackgroundColorSpan::class.java] = editText.selectionStart
             textWatcher.insertLength[BackgroundColorSpan::class.java] = 0
         }.launchIn(viewModel.viewModelScope)
+
+        viewModel.style.onEach {
+            viewModel.currentSpansStarts[StyleSpan::class.java] = editText.selectionStart
+            textWatcher.insertLength[StyleSpan::class.java] = 0
+        }.launchIn(viewModel.viewModelScope)
+
     }
 
     private fun onCursorChange(cursorPosition: Int): Unit {
