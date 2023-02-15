@@ -13,7 +13,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.wordsnchars.databinding.TextEditorSizeSelectBinding
-import com.wordsnchars.text_editor.ViewModelTextEditor
+import com.wordsnchars.ViewModelTextEditor
 
 internal class SizeSelectFragment : Fragment() {
 

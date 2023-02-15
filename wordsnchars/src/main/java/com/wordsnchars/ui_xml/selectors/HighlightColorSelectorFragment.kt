@@ -11,7 +11,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.wordsnchars.R
 import com.wordsnchars.databinding.TextEditorHighlightColorSelectorBinding
-import com.wordsnchars.text_editor.ViewModelTextEditor
+import com.wordsnchars.ViewModelTextEditor
 
 internal class HighlightColorSelectorFragment : Fragment() {
     private lateinit var binding: TextEditorHighlightColorSelectorBinding

@@ -1,9 +1,10 @@
-package com.wordsnchars.text_editor
+package com.wordsnchars.text_editor.core
 
 import android.text.SpanWatcher
 import android.text.Spannable
 import android.text.style.BackgroundColorSpan
 import android.util.Log
+import com.wordsnchars.text_editor.utils.Border
 
 class RemovalWatcher(
     private val onDelete: (Any?, Border) -> Unit

@@ -10,7 +10,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.wordsnchars.databinding.TextEditorScriptionSelectBinding
-import com.wordsnchars.text_editor.ViewModelTextEditor
+import com.wordsnchars.ViewModelTextEditor
 
 internal class ScriptionSelectorFragment : Fragment() {
     private lateinit var binding: TextEditorScriptionSelectBinding

@@ -1,22 +1,29 @@
-package com.wordsnchars.text_editor
+package com.wordsnchars
 
 import android.text.Spannable
 import android.text.style.BackgroundColorSpan
 import android.util.Log
 import android.widget.EditText
 import androidx.lifecycle.viewModelScope
+import com.wordsnchars.text_editor.core.RemovalWatcher
+import com.wordsnchars.text_editor.core.SelectionWatcher
+import com.wordsnchars.text_editor.core.TextWatcherTextEditor
+import com.wordsnchars.text_editor.utils.Border
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 
-class TextEditor(private val viewModel: ViewModelTextEditor, private val editText: EditText) {
-    private val TAG = "TextEditor"
-
+class TextEditor(
+    private val viewModel: ViewModelTextEditor,
+    private val editText: EditText,
+) {
     private val textWatcher = TextWatcherTextEditor(viewModel)
+
+    private val TAG = "TextEditor"
 
     init {
         editText.addTextChangedListener(textWatcher)
 
-        //not implemented fully yet
+        //mainly done with inserting
         editText.text.setSpan(
             SelectionWatcher(
                 editText,

@@ -1,6 +1,8 @@
 package com.wordsnchars.text_editor
 
+import android.text.Editable
 import android.text.style.BackgroundColorSpan
+import com.wordsnchars.text_editor.utils.Border
 
 //returns a copy of a span
 fun Any.copySpan(): Any {
@@ -20,6 +22,6 @@ fun Any.hasSameAttributes(spanToCompare: Any): Boolean {
     throw Exception("Tried to compare unsupported spans $this $spanToCompare")
 }
 
-fun List<Pair<Any, Border>>.so() {
-
+fun Editable.getBorder(span: Any): Border {
+    return Border(this.getSpanStart(span), this.getSpanEnd(span))
 }

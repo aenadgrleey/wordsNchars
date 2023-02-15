@@ -13,12 +13,12 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.wordsnchars.R
 import com.wordsnchars.databinding.TextEditorHomeBinding
-import com.wordsnchars.text_editor.ViewModelTextEditor
+import com.wordsnchars.ViewModelTextEditor
 
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.onEach
 
-internal class ToolbarTextEditor : Fragment() {
+internal class TextEditorHome : Fragment() {
     private lateinit var binding: TextEditorHomeBinding
     private val viewModel: ViewModelTextEditor by activityViewModels()
     override fun onCreateView(

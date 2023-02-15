@@ -9,7 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.wordsnchars.databinding.TextEditorStyleSelectBinding
-import com.wordsnchars.text_editor.ViewModelTextEditor
+import com.wordsnchars.ViewModelTextEditor
 
 internal class StyleSelectorFragment : Fragment() {
     private lateinit var binding: TextEditorStyleSelectBinding

@@ -1,4 +1,4 @@
-package com.wordsnchars.text_editor
+package com.wordsnchars.text_editor.utils
 
 
 

@@ -1,8 +1,10 @@
-package com.wordsnchars.text_editor
+package com.wordsnchars.text_editor.utils
 
 import android.text.Editable
 import android.text.Spannable
-import android.text.style.BackgroundColorSpan
+import android.util.Log
+import com.wordsnchars.text_editor.copySpan
+import com.wordsnchars.text_editor.hasSameAttributes
 
 
 //find out if span is being inserted into another one of same type and create a gap in given borders
@@ -12,12 +14,15 @@ fun Editable.createGap(spanType: Any, border: Border) {
         val spanStart = this.getSpanStart(span)
         val spanEnd = this.getSpanEnd(span)
         val spanBorder = Border(spanStart, spanEnd)
+        Log.v("hui", "creating gap in span $span $spanBorder")
         //if span is
         if (border isOverlayedBy spanBorder) {
             val beforeSpanBorder = Border(spanStart, border.start)
             val afterSpanBorder = Border(border.end, spanEnd)
-            this.setSpan(span, afterSpanBorder)
+            this.removeSpan(span)
+            this.setSpan(span.copySpan(), afterSpanBorder)
             this.setSpan(span.copySpan(), beforeSpanBorder)
+            Log.v("hui", "created gap in span $span $spanBorder $afterSpanBorder $beforeSpanBorder")
         }
 
     }
@@ -45,7 +50,6 @@ fun Editable.setSpan(span: Any, border: Border): Boolean {
     if (this.hasSimilar(span, border)
         || border.hasImproperLength()
     ) return false
-    println("setting span: $span ${(span as BackgroundColorSpan).backgroundColor}, $border")
     setSpan(
         span, minOf(border.start, length), minOf(border.end, length), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
     )

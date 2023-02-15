@@ -1,17 +1,21 @@
-package com.wordsnchars.text_editor
+package com.wordsnchars.text_editor.core
 
 import android.text.Editable
 import android.text.TextWatcher
 import android.text.style.BackgroundColorSpan
 import android.util.Log
+import com.wordsnchars.ViewModelTextEditor
+import com.wordsnchars.text_editor.utils.createGap
+import com.wordsnchars.text_editor.getBorder
+import com.wordsnchars.text_editor.utils.setSpan
+import com.wordsnchars.text_editor.utils.*
 
 class TextWatcherTextEditor(
     private val viewModel: ViewModelTextEditor,
 ) : TextWatcher {
     var triggered = false
     private val TAG = "TextWatcher"
-    private var _backspacePressed = false
-    val backspacePressed get() = _backspacePressed
+    private var backspacePressed = false
 
     private var _lengthBefore = 0
     val lengthBefore get() = _lengthBefore
@@ -30,8 +34,8 @@ class TextWatcherTextEditor(
 
     override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
         //mark that backspace was pressed
-        _backspacePressed = before > count
-        if (_backspacePressed) {
+        backspacePressed = before > count
+        if (backspacePressed) {
             Log.v(TAG, "backspace press")
             insertLength = 1
             viewModel.currentSpansStarts.clear()
@@ -40,8 +44,6 @@ class TextWatcherTextEditor(
         _delta = s.length - _lengthBefore
 
         insertLength += _delta
-
-        outsideBorder = Border(start, start + count)
 
 
         Log.v(
@@ -68,11 +70,6 @@ class TextWatcherTextEditor(
             viewModel.currentSpansStarts[associatedSpan::class.java] ?: viewModel.cursorPosition
         insideBorder = Border(predictedSpanStart, predictedSpanStart + insertLength)
 
-        Log.v(TAG, "predicted border: $insideBorder for $associatedSpan")
-
-        Log.v(TAG, "spans on s: ${this.getSpans(0, length, BackgroundColorSpan::class.java).size}")
-
-
         viewModel.previouslySetSpans[associatedSpan::class.java].let {
             Log.v(TAG, "cached spans: ${it?.size}")
 
@@ -83,7 +80,6 @@ class TextWatcherTextEditor(
                                 //this crutch works only with deleting only one symbol
                                 backspacePressed && viewModel.cursorPosition In insideBorder)
                     ) {
-                        Log.v(TAG, "setting form cache")
                         this@handleModifier.setSpan(this.first, this.second)
                     }
                     viewModel.previouslySetSpans[associatedSpan::class.java]!!.remove(this)
@@ -94,9 +90,16 @@ class TextWatcherTextEditor(
         //create gap in text to set new spans in the given range
         this.createGap(associatedSpan::class.java, this@TextWatcherTextEditor.insideBorder)
 
+
         //set new span with given borders
         this.setSpan(associatedSpan, this@TextWatcherTextEditor.insideBorder)
         Log.v(TAG, "ended ${associatedSpan::class.java} routine")
+
+        //checking that there are only proper span
+        this.getSpans(0, length, associatedSpan::class.java).forEach {
+            Log.v(TAG, "string has $it ${getBorder(it)}")
+        }
+
 
     }
 }

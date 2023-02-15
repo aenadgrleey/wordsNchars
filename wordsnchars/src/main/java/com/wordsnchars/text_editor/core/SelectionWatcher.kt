@@ -1,4 +1,4 @@
-package com.wordsnchars.text_editor
+package com.wordsnchars.text_editor.core
 
 import android.text.Selection
 import android.text.SpanWatcher
