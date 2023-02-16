@@ -6,7 +6,9 @@ import android.text.Spannable
 import android.util.Log
 
 
-//find out if span is being inserted into another one of same type and create a gap in given borders
+/**
+ *find out if span is being inserted into another one of same type and create a gap in given borders
+ */
 fun Editable.createGap(spanType: Any, border: Border) {
     if (border.hasImproperLength()) return
     this.getSpans(border.start, border.end, spanType as Class<*>).forEach { span ->
@@ -21,7 +23,6 @@ fun Editable.createGap(spanType: Any, border: Border) {
             //there was a span removal that caused a huge bag. idk why i changed it recently from current way to that.
             this.setSpan(span, afterSpanBorder)
             this.setSpan(span.copySpan(), beforeSpanBorder)
-            Log.v("hui", "created gap in span $span $spanBorder $afterSpanBorder $beforeSpanBorder")
         }
 
     }

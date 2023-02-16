@@ -67,7 +67,7 @@ class TextWatcherTextEditor(
         s.handleModifier(BackgroundColorSpan(viewModel.highlightColor.value))
 
         //style
-//        s.handleModifier(StyleSpan(viewModel.style.value))
+        s.handleModifier(StyleSpan(viewModel.style.value))
 
     }
 
