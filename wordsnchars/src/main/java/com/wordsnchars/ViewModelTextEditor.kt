@@ -17,11 +17,6 @@ class ViewModelTextEditor : ViewModel() {
         BackgroundColorSpan::class.java to mutableSetOf(Pair(BackgroundColorSpan(0), Border(0, 0))),
         StyleSpan::class.java to mutableSetOf(Pair(StyleSpan(0), Border(0, 0)))
     )
-    var cursorPosition = 0
-    var currentSpansStarts = mutableMapOf<Any, Int>(
-        BackgroundColorSpan::class.java to 0,
-        StyleSpan::class.java to 0
-    )
 
     //"underline" modifier routine
     private var _underlined = MutableStateFlow(false)

@@ -1,5 +1,6 @@
 package com.wordsnchars.text_editor.utils
 
+import android.nfc.Tag
 import android.text.Editable
 import android.text.Spannable
 import android.util.Log
@@ -17,8 +18,8 @@ fun Editable.createGap(spanType: Any, border: Border) {
         if (border isOverlappedBy spanBorder) {
             val beforeSpanBorder = Border(spanStart, border.start)
             val afterSpanBorder = Border(border.end, spanEnd)
-            this.removeSpan(span)
-            this.setSpan(span.copySpan(), afterSpanBorder)
+            //there was a span removal that caused a huge bag. idk why i changed it recently from current way to that.
+            this.setSpan(span, afterSpanBorder)
             this.setSpan(span.copySpan(), beforeSpanBorder)
             Log.v("hui", "created gap in span $span $spanBorder $afterSpanBorder $beforeSpanBorder")
         }
@@ -44,12 +45,15 @@ fun Editable.hasSimilar(
 }
 
 fun Editable.setSpan(span: Any, border: Border): Boolean {
+    val convenientBorder = Border(minOf(border.start, length), minOf(border.end, length))
     //check if there's mess with border ends
-    if (this.hasSimilar(span, border)
-        || border.hasImproperLength()
+    if (this.hasSimilar(span, convenientBorder)
+        || convenientBorder.hasImproperLength()
     ) return false
+    Log.v("SetSpan", "$span $convenientBorder")
     setSpan(
-        span, minOf(border.start, length), minOf(border.end, length), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+        span,
+        convenientBorder.start, convenientBorder.end, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
     )
     return true
 }

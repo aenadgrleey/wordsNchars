@@ -13,6 +13,9 @@ import com.wordsnchars.text_editor.utils.Border
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 
+
+val supportedSpans = listOf(BackgroundColorSpan::class.java, StyleSpan::class.java)
+
 class TextEditor(
     private val viewModel: ViewModelTextEditor,
     private val editText: EditText,
@@ -41,27 +44,26 @@ class TextEditor(
         )
 
         //detect change of modifier and reset start point and length of spans
-
         viewModel.highlightColor.onEach {
-            viewModel.currentSpansStarts[BackgroundColorSpan::class.java] = editText.selectionStart
+            textWatcher.currentSpansStarts[BackgroundColorSpan::class.java] = editText.selectionStart
             textWatcher.insertLength[BackgroundColorSpan::class.java] = 0
         }.launchIn(viewModel.viewModelScope)
 
         viewModel.style.onEach {
-            viewModel.currentSpansStarts[StyleSpan::class.java] = editText.selectionStart
+            textWatcher.currentSpansStarts[StyleSpan::class.java] = editText.selectionStart
             textWatcher.insertLength[StyleSpan::class.java] = 0
         }.launchIn(viewModel.viewModelScope)
 
     }
 
     private fun onCursorChange(cursorPosition: Int): Unit {
-        viewModel.cursorPosition = editText.selectionEnd
+        textWatcher.cursorPosition = editText.selectionEnd
 
         //detect change of cursor position cased not by insert and reset start point and length of spans
         if (!textWatcher.triggered) {
-            viewModel.currentSpansStarts.run {
+            textWatcher.currentSpansStarts.run {
                 this.keys.forEach {
-                    this[it] = editText.selectionStart
+                    this[it] = textWatcher.cursorPosition
                 }
             }
             textWatcher.insertLength.keys.forEach {
@@ -71,15 +73,16 @@ class TextEditor(
         textWatcher.triggered = false
 
     }
+    private fun onSpanDelete(span: Any?, border: Border): Unit {
+        if (span == null) return
+        if (span::class.java in supportedSpans) {
+            viewModel.previouslySetSpans[span::class.java]!!.add(Pair(span, border))
+            Log.v(TAG, "cached spam $span $border")
+        }
+    }
 
     private fun onSelect(): Unit {
         TODO()
     }
 
-    private fun onSpanDelete(span: Any?, border: Border): Unit {
-        if (span == null) return
-        if (span::class.java in viewModel.previouslySetSpans.keys) {
-            viewModel.previouslySetSpans[span::class.java]!!.add(Pair(span, border))
-        }
-    }
 }

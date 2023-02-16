@@ -11,6 +11,7 @@ import android.view.Menu
 import android.view.MenuItem
 import com.aendgrleey.wordsnchars.R
 import com.aendgrleey.wordsnchars.databinding.ActivityMainBinding
+import com.wordsnchars.databinding.TextEditorHomeBinding
 
 class MainActivity : AppCompatActivity() {
 

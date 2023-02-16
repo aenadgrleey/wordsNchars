@@ -29,6 +29,11 @@ class TextWatcherTextEditor(
     private var lengthBefore = 0
     private var delta = 0
     private lateinit var insideBorder: Border
+    var cursorPosition = 0
+    var currentSpansStarts = mutableMapOf<Any, Int>(
+        BackgroundColorSpan::class.java to 0,
+        StyleSpan::class.java to 0
+    )
 
 
     override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
@@ -39,8 +44,12 @@ class TextWatcherTextEditor(
     override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
         //detect if it was deletion on previous trigger of tw and
         if (backspacePressed) {
-            insertLength.clear()
-            viewModel.currentSpansStarts.clear()
+            insertLength.keys.forEach {
+                insertLength[it] = 0
+            }
+            currentSpansStarts.keys.forEach {
+                currentSpansStarts[it] = cursorPosition
+            }
         }
         backspacePressed = before > count
 
@@ -58,7 +67,7 @@ class TextWatcherTextEditor(
         s.handleModifier(BackgroundColorSpan(viewModel.highlightColor.value))
 
         //style
-        s.handleModifier(StyleSpan(viewModel.style.value))
+//        s.handleModifier(StyleSpan(viewModel.style.value))
 
     }
 
@@ -72,8 +81,9 @@ class TextWatcherTextEditor(
         //this part should be commented for sure)))
 
         val predictedSpanStart =
-            viewModel.currentSpansStarts[associatedSpan::class.java] ?: viewModel.cursorPosition
-        insideBorder = Border(predictedSpanStart, predictedSpanStart + insertLength[associatedSpan::class.java]!!)
+            currentSpansStarts[associatedSpan::class.java] ?: cursorPosition
+        val predictedSpanLength = insertLength[associatedSpan::class.java] ?: 0
+        insideBorder = Border(predictedSpanStart, predictedSpanStart + predictedSpanLength)
 
         viewModel.previouslySetSpans[associatedSpan::class.java].let {
             while (it?.isNotEmpty() == true) {
@@ -81,8 +91,9 @@ class TextWatcherTextEditor(
                     //return span from cache if it's out of new border
                     if (!(this.second inside insideBorder ||
                                 //this crutch works only with deleting only one symbol
-                                backspacePressed && viewModel.cursorPosition inside insideBorder)
+                                backspacePressed && cursorPosition inside insideBorder)
                     ) {
+                        Log.v(TAG, "set from cache ${this.first}")
                         this@handleModifier.setSpan(this.first, this.second)
                     }
                     viewModel.previouslySetSpans[associatedSpan::class.java]!!.remove(this)
@@ -96,8 +107,8 @@ class TextWatcherTextEditor(
         this.setSpan(associatedSpan, this@TextWatcherTextEditor.insideBorder)
 
         //checking that there are only proper span, thing for debug build
-        this.getSpans(0, length, associatedSpan::class.java).forEach {
-            Log.v(TAG, "string has $it ${getBorder(it)}")
+        this.getSpans(0, length, BackgroundColorSpan::class.java).forEach {
+            Log.v(TAG, "string has ${it.backgroundColor} ${getBorder(it)}")
         }
 
         Log.v(TAG, "ended ${associatedSpan::class.java} routine")
