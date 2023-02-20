@@ -3,9 +3,11 @@ package com.wordsnchars
 import android.graphics.Paint.Style
 import android.graphics.Typeface
 import android.text.style.BackgroundColorSpan
+import android.text.style.RelativeSizeSpan
 import android.text.style.StyleSpan
 import android.text.style.SubscriptSpan
 import android.text.style.SuperscriptSpan
+import android.text.style.UnderlineSpan
 import androidx.lifecycle.ViewModel
 import com.wordsnchars.text_editor.utils.Border
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -14,21 +16,24 @@ import kotlinx.coroutines.flow.asStateFlow
 class ViewModelTextEditor : ViewModel() {
     //i'm not sure if it's a good idea to store this in vm
     var previouslySetSpans: MutableMap<Any, MutableSet<Pair<Any, Border>>> = mutableMapOf(
-        BackgroundColorSpan::class.java to mutableSetOf(Pair(BackgroundColorSpan(0), Border(0, 0))),
-        StyleSpan::class.java to mutableSetOf(Pair(StyleSpan(0), Border(0, 0)))
+        BackgroundColorSpan::class.java to mutableSetOf(Pair(StyleSpan(0), Border(0, 0))),
+        StyleSpan::class.java to mutableSetOf(Pair(StyleSpan(0), Border(0, 0))),
+        RelativeSizeSpan::class.java to mutableSetOf(Pair(StyleSpan(0), Border(0, 0))),
+        UnderlineSpan::class.java to mutableSetOf(Pair(StyleSpan(0), Border(0, 0)))
+
     )
 
     //"underline" modifier routine
     private var _underlined = MutableStateFlow(false)
     val underlined get() = _underlined.asStateFlow()
-    fun underlinedToggle(){
+    fun underlinedToggle() {
         _underlined.value = !_underlined.value
     }
 
     //"strike through" modifier routine
     private var _strikeThrough = false
     val strikeThrough get() = _strikeThrough
-    fun strikeThroughToggle(){
+    fun strikeThroughToggle() {
         _strikeThrough = !_strikeThrough
     }
 
@@ -36,7 +41,7 @@ class ViewModelTextEditor : ViewModel() {
     private var _fontSizeMultiplier = MutableStateFlow(1F)
     val fontSizeMultiplier get() = _fontSizeMultiplier.asStateFlow()
     fun setModifier(modifier: Float): Boolean {
-        return if(modifier in 0.5..2.5){
+        return if (modifier in 0.5..2.5) {
             _fontSizeMultiplier.value = modifier
             true
         } else false
@@ -50,6 +55,7 @@ class ViewModelTextEditor : ViewModel() {
     fun highlightToggle() {
         _highlighted.value = !_highlighted.value
     }
+
     fun highlightColorChange(color: Int): Boolean {
         _highlightColor.value = color
         return true
@@ -87,7 +93,7 @@ class ViewModelTextEditor : ViewModel() {
     private var _scription = MutableStateFlow<Any?>(null)
     val scription get() = _scription.asStateFlow()
     fun scriptionChange(scriptionSpan: Any?): Boolean {
-        return if (scriptionSpan == null || scriptionSpan::class.java == SuperscriptSpan::class.java || scriptionSpan::class.java == SubscriptSpan::class.java){
+        return if (scriptionSpan == null || scriptionSpan::class.java == SuperscriptSpan::class.java || scriptionSpan::class.java == SubscriptSpan::class.java) {
             _scription.value = scriptionSpan
             true
         } else false

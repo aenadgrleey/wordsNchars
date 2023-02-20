@@ -1,42 +1,44 @@
 package com.wordsnchars.text_editor.utils
 
+import kotlin.math.max
+import kotlin.math.min
+
 /**
  * class to store values of start and end of something. was built as util tool for span using
  */
 class Border(val start: Int, val end: Int) {
+
     init {
-        //should implement some check for improper borders
-        //it's not good to have several check in different places instead of having one in init block
-        //in some cases already initializing with negative or "end < start" borders
+        if (start > end) throw ImproperBordersException("Tried to initiate border with improper borders")
     }
 
     /**
      * checks if length is negative or zero
      */
-    fun hasImproperLength(): Boolean {
-        return start >= end
-    }
-
-    /**
-     * checks if length is zero
-     */
     fun hasZeroLength(): Boolean {
-        return this.start == this.end
+        return start == end
     }
 
     /**
      * checks if this border is fully inside another that was taken as integer
      */
     infix fun inside(border: Border): Boolean {
-        if (this.hasImproperLength() || border.hasImproperLength()) return false
+        if (this.hasZeroLength() || border.hasZeroLength()) return false
         return border.start <= this.start && this.end <= border.end
+    }
+
+    /**
+     * checks if this border is fully outside another that was taken as integer
+     */
+    infix fun outside(border: Border): Boolean {
+        return !(this inside border)
     }
 
     /**
      * checks if borders have common part
      */
     infix fun isOverlappedBy(border: Border): Boolean {
-        if (this.hasImproperLength() || border.hasImproperLength()) return false
+        if (this.hasZeroLength() || border.hasZeroLength()) return false
         return this.start inside border || this.end inside border
     }
 
@@ -57,3 +59,10 @@ infix fun Int.inside(border: Border): Boolean {
     return border.start <= this && this <= border.end
 
 }
+
+infix fun Int.outside(border: Border): Boolean {
+    return !(this inside border)
+
+}
+
+class ImproperBordersException(override val message: String?): Exception()

@@ -2,7 +2,9 @@ package com.wordsnchars.text_editor.utils
 
 import android.text.Editable
 import android.text.style.BackgroundColorSpan
+import android.text.style.RelativeSizeSpan
 import android.text.style.StyleSpan
+import android.text.style.UnderlineSpan
 
 
 /**
@@ -18,6 +20,13 @@ fun Any.copySpan(): Any {
         return StyleSpan(style)
     }
 
+    if (this::class.java == RelativeSizeSpan::class.java) {
+        val multiplier = (this as RelativeSizeSpan).sizeChange
+        return RelativeSizeSpan(multiplier)
+    }
+
+    if (this::class.java == UnderlineSpan::class.java) return UnderlineSpan()
+
     throw Exception("Tried to copy unsupported span ${this}")
 }
 
@@ -31,6 +40,12 @@ fun Any.hasSameAttributes(spanToCompare: Any): Boolean {
     if (this::class.java == StyleSpan::class.java
         && spanToCompare::class.java == StyleSpan::class.java
     ) return (this as StyleSpan).style == (spanToCompare as StyleSpan).style
+    if (this::class.java == RelativeSizeSpan::class.java
+        && spanToCompare::class.java == RelativeSizeSpan::class.java
+    ) return (this as RelativeSizeSpan).sizeChange == (spanToCompare as RelativeSizeSpan).sizeChange
+    if (this::class.java == UnderlineSpan::class.java
+        && spanToCompare::class.java == UnderlineSpan::class.java
+    ) return true
     throw Exception("Tried to compare unsupported spans $this $spanToCompare")
 }
 

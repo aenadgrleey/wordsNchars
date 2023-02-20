@@ -6,9 +6,8 @@ import android.text.Spannable
 import android.widget.EditText
 
 class SelectionWatcher(
-    private val editText: EditText,
     val onCursorChange: (Int) -> Unit,
-    val onSelectionChange: () -> Unit,
+    val onSelectionChange: (Int, Int) -> Unit,
 ) : SpanWatcher {
     override fun onSpanAdded(text: Spannable?, what: Any?, start: Int, end: Int) {}
     override fun onSpanRemoved(text: Spannable?, what: Any?, start: Int, end: Int) {}
@@ -21,8 +20,16 @@ class SelectionWatcher(
         nend: Int,
     ) {
         if (what::class.java == Selection.SELECTION_END::class.java)
+        //detect simple cursor change
             if (text?.getSpanStart(Selection.SELECTION_START) == text?.getSpanStart(Selection.SELECTION_END))
                 onCursorChange(nstart)
-            else TODO()
+            //detect select
+            else
+                onSelectionChange(
+                    text?.getSpanStart(Selection.SELECTION_START) ?: 0,
+                    text?.getSpanStart(Selection.SELECTION_END) ?: 0
+                )
+
+
     }
 }

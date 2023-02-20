@@ -15,21 +15,21 @@ class EditableSuspendExtensionsKtTest {
         s.setSpan(StyleSpan(2), Border(0, 10))
         s.createGap(StyleSpan::class.java, Border(2, 5))
         s.getSpans(0, s.length, StyleSpan::class.java).forEach { it ->
-            println("${s.getBorder(it)}")
-            result = s.getBorder(it) == Border(0, 2) || s.getBorder(it) == Border(5, 10)
+            println("$it ${s.getBorder(it)}")
+            result = s.getBorder(it) == Border(0, 2) || s.getBorder(it) == Border(5, 10) && result
         }
         assertThat(result).isTrue()
     }
 
     @Test
     fun createGapWithImproperBorders() {
-        var result = true
-        var s = SpannableStringBuilder("aegeergwgrg")
-        s.setSpan(StyleSpan(2), Border(0, 11))
-        s.createGap(StyleSpan::class.java, Border(5, 2))
-        s.getSpans(0, s.length, StyleSpan::class.java).forEach { it ->
-            println("${s.getBorder(it)}")
-            result = s.getBorder(it) == Border(0, 11)
+        var result = false
+        try {
+            var s = SpannableStringBuilder("aegeergwgrg")
+            s.setSpan(StyleSpan(2), Border(0, 11))
+            s.createGap(StyleSpan::class.java, Border(5, 2))
+        } catch (e: ImproperBordersException) {
+            result = true
         }
         assertThat(result).isTrue()
     }
@@ -56,14 +56,12 @@ class EditableSuspendExtensionsKtTest {
 
     @Test
     fun setSpanImproperly() {
-        var result = SpannableStringBuilder("ergergrgt").setSpan(StyleSpan(3), Border(0, -7))
-        assertThat(result).isFalse()
-    }
-    @Test
-    fun setSpanTwice() {
-        var s = SpannableStringBuilder("ergergrgt")
-        s.setSpan(StyleSpan(3), Border(0, 7))
-        var result = s.setSpan(StyleSpan(3), Border(0, 7))
-        assertThat(result).isFalse()
+        var result = false
+        try {
+            SpannableStringBuilder("ergergrgt").setSpan(StyleSpan(3), Border(0, -7))
+        } catch (e: ImproperBordersException) {
+            result = true
+        }
+        assertThat(result).isTrue()
     }
 }

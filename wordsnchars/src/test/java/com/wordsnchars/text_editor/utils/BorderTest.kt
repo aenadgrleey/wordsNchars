@@ -10,19 +10,19 @@ internal class BorderTest {
     //but turns out that i have to while working alone
     @Test
     fun `improper border with 2 negatives`() {
-        val result = Border(0, -1).hasImproperLength()
+        val result = Border(0, -1).hasZeroLength()
         assertThat(result).isTrue()
     }
 
     @Test
     fun `improper border with 1 negative and 1 positive`() {
-        var result = Border(5, -1).hasImproperLength()
+        var result = Border(5, -1).hasZeroLength()
         assertThat(result).isTrue()
     }
 
     @Test
     fun `improper border with 2 positive`() {
-        val result = Border(10, 9).hasImproperLength()
+        val result = Border(10, 9).hasZeroLength()
         assertThat(result).isTrue()
     }
 
