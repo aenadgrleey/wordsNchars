@@ -35,6 +35,20 @@ class EditableSuspendExtensionsKtTest {
     }
 
     @Test
+    fun createGapWithPartialInsideInclinedBorder() {
+        var result = true
+        var s = SpannableStringBuilder("aegeergwgrg")
+        s.setSpan(StyleSpan(2), Border(5, 7))
+        s.createGap(StyleSpan::class.java, Border(0, 11))
+
+        s.getSpans(0, 11, StyleSpan::class.java).forEach {
+            println(s.getBorder(it))
+            result = false
+        }
+        assertThat(result).isTrue()
+    }
+
+    @Test
     fun createGapWithGapThatTouchesTwoBorders() {
         var result = true
         var s = SpannableStringBuilder("aegeergwgrg")

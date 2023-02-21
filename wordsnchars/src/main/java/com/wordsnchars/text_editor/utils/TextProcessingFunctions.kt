@@ -9,7 +9,7 @@ import kotlin.math.min
 class Border(val start: Int, val end: Int) {
 
     init {
-        if (start > end) throw ImproperBordersException("Tried to initiate border with improper borders")
+        if (start > end) throw ImproperBordersException("Tried to initiate border with improper borders $start > $end")
     }
 
     /**
@@ -28,7 +28,7 @@ class Border(val start: Int, val end: Int) {
     }
 
     /**
-     * checks if this border is fully outside another that was taken as integer
+     * checks if this border is fully outside (no)k another that was taken as integer
      */
     infix fun outside(border: Border): Boolean {
         return !(this inside border)
@@ -39,7 +39,11 @@ class Border(val start: Int, val end: Int) {
      */
     infix fun isOverlappedBy(border: Border): Boolean {
         if (this.hasZeroLength() || border.hasZeroLength()) return false
-        return this.start inside border || this.end inside border
+        return this.start inside border || this.end inside border || border.start inside this || border.end inside this
+    }
+
+    fun length(): Int {
+        return end - start
     }
 
     override fun toString(): String {
@@ -50,6 +54,7 @@ class Border(val start: Int, val end: Int) {
         if (other is Border && other.start == this.start && other.end == this.end) return true
         return super.equals(other)
     }
+
 }
 
 /**

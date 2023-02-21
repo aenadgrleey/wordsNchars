@@ -3,9 +3,6 @@ package com.wordsnchars.text_editor.core
 import android.text.Editable
 import android.text.TextWatcher
 import android.text.style.BackgroundColorSpan
-import android.text.style.RelativeSizeSpan
-import android.text.style.StyleSpan
-import android.text.style.UnderlineSpan
 import android.util.Log
 import com.wordsnchars.ViewModelTextEditor
 import com.wordsnchars.supportedSpans
@@ -13,6 +10,7 @@ import com.wordsnchars.text_editor.utils.createGap
 import com.wordsnchars.text_editor.utils.setSpan
 import com.wordsnchars.text_editor.utils.*
 import kotlin.math.max
+import kotlin.math.min
 
 class TextWatcherTextEditor(
     private val viewModel: ViewModelTextEditor,
@@ -20,7 +18,7 @@ class TextWatcherTextEditor(
 
     private val TAG = "TextWatcher"
 
-    val symbolThatSystemTreatsAsEndOfInsert = listOf(' ', ',')
+    private val symbolThatSystemTreatsAsEndOfInsert = listOf(' ', ',')
     var triggered = false
     private var backspacePressed = false
 
@@ -43,29 +41,29 @@ class TextWatcherTextEditor(
 
 
     override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+        //what the hell is going on here i don't understand now
         triggered = true
         lengthBefore = s!!.length
+
+        //set start of the word, that likely will be treated system as start of insert
         this.start =
-            if (start == 0 || s[start - 1] in symbolThatSystemTreatsAsEndOfInsert) start
-            else this.start
+            (if (start == 0 || s[start - 1] in symbolThatSystemTreatsAsEndOfInsert) {
+                if (this.start != start) insertLength.keys.forEach { insertLength[it] = 0 }
+                start
+            } else this.start)
         Log.v(TAG, "triggered textwatcher")
     }
 
     override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
-        //detect if it was deletion on previous trigger of tw and
+        //what the hell is going on here i don't understand now
+        delta = s.length - lengthBefore
+        cursorPosition += delta
+        backspacePressed = delta < 0
         if (backspacePressed) {
-            currentSpansStarts.keys.forEach {
-                currentSpansStarts[it] = cursorPosition
-            }
-            insertLength.keys.forEach {
-                insertLength[it] = 0
-            }
+            currentSpansStarts.keys.forEach { currentSpansStarts[it] = cursorPosition }
+            insertLength.keys.forEach { insertLength[it] = 0 }
             this.start = cursorPosition
         }
-
-        delta = s.length - lengthBefore
-        backspacePressed = delta < 0
-        if (backspacePressed) println("backspace pressed)))")
         insertLength.keys.forEach {
             insertLength[it] = insertLength[it]!! + if (!backspacePressed) delta else 0
         }
@@ -91,26 +89,57 @@ class TextWatcherTextEditor(
         val predictedSpanLength = insertLength[associatedSpan::class.java] ?: 0
         val spanBorder = Border(predictedSpanStart, predictedSpanStart + predictedSpanLength)
 
-        Log.v(TAG, "predicted border: $spanBorder $cursorPosition")
-        viewModel.previouslySetSpans[associatedSpan::class.java].let {
-            while (it?.isNotEmpty() == true) with(it.last()) {
-                //return span from cache if it's out of new border
-                if (this.second outside spanBorder
-                    && !(backspacePressed && cursorPosition inside this.second)
-                    && !this@handleModifier.hasSimilar(this.first, this.second))
-                    this@handleModifier.setSpan(this.first, this.second)
-                viewModel.previouslySetSpans[associatedSpan::class.java]!!.remove(this)
-            }
-        }
+        Log.v(
+            TAG,
+            "predicted border: $spanBorder len: $length cursor pos: $cursorPosition and $start pred start: $predictedSpanStart  pred len: $predictedSpanLength"
+        )
+
+        restoreCached(
+            this,
+            spanBorder,
+            associatedSpan::class.java,
+            viewModel.previouslySetSpans[associatedSpan::class.java]
+        )
 
         this.createGap(associatedSpan::class.java, spanBorder)
 
+        if (!this.hasSimilar(associatedSpan, spanBorder)) {
+            println("setting as routine $spanBorder")
+            this.setSpan(
+                associatedSpan,
+                spanBorder
+            )
+        }
 
-        if (!this.hasSimilar(associatedSpan, spanBorder))
-            this.setSpan(associatedSpan, spanBorder)
+        viewModel.previouslySetSpans[associatedSpan::class.java] = mutableListOf()
 
         this.getSpans(0, length, BackgroundColorSpan::class.java).forEach {
-            Log.v(TAG, "$it ${it.backgroundColor} ${this.getSpanStart(it)} ${this.getSpanEnd(it)}")
+            Log.v(TAG, "string has: $it ${it.backgroundColor} ${this.getBorder(it)}")
+        }
+
+    }
+
+    private fun restoreCached(
+        text: Editable,
+        untouchableZone: Border,
+        spanType: Class<*>,
+        cachedSpans: MutableList<Pair<Any, Border>>?,
+    ) {
+        while (cachedSpans?.isNotEmpty() == true) with(cachedSpans.last()) {
+            //return span from cache if it's out of new border
+            Log.v(TAG, "info: $cursorPosition ${this.second}")
+            if (this.second outside untouchableZone && (!backspacePressed && cursorPosition outside this.second)) {
+                if (!text.hasSimilar(this.first, this.second)) {
+                    Log.v(TAG, "setting from the cache casual span ${this.second}")
+                    text.setSpan(
+                        this.first,
+                        this.second
+                    )
+                }
+            }
+            viewModel.previouslySetSpans[spanType]!!.remove(this)
+
         }
     }
+
 }

@@ -15,11 +15,11 @@ import kotlinx.coroutines.flow.asStateFlow
 
 class ViewModelTextEditor : ViewModel() {
     //i'm not sure if it's a good idea to store this in vm
-    var previouslySetSpans: MutableMap<Any, MutableSet<Pair<Any, Border>>> = mutableMapOf(
-        BackgroundColorSpan::class.java to mutableSetOf(Pair(StyleSpan(0), Border(0, 0))),
-        StyleSpan::class.java to mutableSetOf(Pair(StyleSpan(0), Border(0, 0))),
-        RelativeSizeSpan::class.java to mutableSetOf(Pair(StyleSpan(0), Border(0, 0))),
-        UnderlineSpan::class.java to mutableSetOf(Pair(StyleSpan(0), Border(0, 0)))
+    var previouslySetSpans: MutableMap<Any, MutableList<Pair<Any, Border>>> = mutableMapOf(
+        BackgroundColorSpan::class.java to mutableListOf(Pair(StyleSpan(0), Border(0, 0))),
+        StyleSpan::class.java to mutableListOf(Pair(StyleSpan(0), Border(0, 0))),
+        RelativeSizeSpan::class.java to mutableListOf(Pair(StyleSpan(0), Border(0, 0))),
+        UnderlineSpan::class.java to mutableListOf(Pair(StyleSpan(0), Border(0, 0)))
 
     )
 

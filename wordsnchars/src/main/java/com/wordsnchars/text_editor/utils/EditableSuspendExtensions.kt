@@ -2,6 +2,7 @@ package com.wordsnchars.text_editor.utils
 
 import android.text.Editable
 import android.text.Spannable
+import android.util.Log
 import kotlin.math.max
 import kotlin.math.min
 import kotlin.text.min as mi
@@ -15,22 +16,19 @@ fun Editable.createGap(spanType: Any, border: Border) {
     this.getSpans(border.start, border.end, spanType as Class<*>).forEach { span ->
         val spanBorder = this.getBorder(span)
         if (border isOverlappedBy spanBorder) {
-            try {
-                val afterSpanBorder = Border(border.end, spanBorder.end)
-                this.setSpan(
-                    span.copySpan(),
-                    afterSpanBorder
-                )
+            Log.v("CreateGap", "clearing border $spanBorder")
+            val afterSpanBorder = Border(border.end, max(spanBorder.end, border.end))
+            println("$afterSpanBorder")
+            this.setSpan(span.copySpan(), afterSpanBorder)
 
-            } catch (e: ImproperBordersException){}
-            try {
-                val beforeSpanBorder = Border(spanBorder.start, border.start)
-                if (!this.setSpan(
-                        span,
-                        beforeSpanBorder
-                    )
-                ) this.removeSpan(span)
-            } catch (e: ImproperBordersException){}
+            val beforeSpanBorder = Border(min(spanBorder.start, border.start), border.start)
+            when (this.setSpan(span, beforeSpanBorder)) {
+                false -> this.removeSpan(span)
+                true -> {
+                    println("not today")
+                }
+
+            }
         }
     }
 }
@@ -41,11 +39,9 @@ fun Editable.hasSimilar(
     border: Border,
 ): Boolean {
     //get all similar spans on the string being edited
-    val spans = this.getSpans(border.start, border.end, spanToCheck::class.java)
-    spans.forEach {
-        val anotherBorder = Border(this.getSpanStart(it), this.getSpanEnd(it))
-        if (it?.hasSameAttributes(spanToCheck) == true
-            && border inside anotherBorder
+    this.getSpans(border.start, border.end, spanToCheck::class.java).forEach {
+        if (it.hasSameAttributes(spanToCheck)
+            && border inside this.getBorder(it)
         ) return true
     }
     return false

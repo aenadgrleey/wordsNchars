@@ -56,8 +56,6 @@ class TextEditor(
             textWatcher.currentSpansStarts[BackgroundColorSpan::class.java] = editText.selectionStart
             textWatcher.insertLength[BackgroundColorSpan::class.java] =
                 editText.run { selectionEnd - selectionStart }
-            textWatcher.start = 0
-            textWatcher.afterTextChanged(editText.text)
         }.launchIn(viewModel.viewModelScope)
 
         viewModel.style.onEach {
@@ -83,9 +81,11 @@ class TextEditor(
 
     private fun onCursorChange(cursorPosition: Int): Unit {
         textWatcher.cursorPosition = cursorPosition
+        Log.v(TAG, "changed cursor pos to $cursorPosition")
 
         //detect change of cursor position cased not by insert and reset start point and length of spans
         if (!textWatcher.triggered) {
+            textWatcher.start = cursorPosition
             textWatcher.currentSpansStarts.keys.forEach {
                 textWatcher.currentSpansStarts[it] = textWatcher.cursorPosition
             }

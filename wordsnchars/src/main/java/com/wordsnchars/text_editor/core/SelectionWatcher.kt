@@ -22,7 +22,7 @@ class SelectionWatcher(
         if (what::class.java == Selection.SELECTION_END::class.java)
         //detect simple cursor change
             if (text?.getSpanStart(Selection.SELECTION_START) == text?.getSpanStart(Selection.SELECTION_END))
-                onCursorChange(nstart)
+                onCursorChange(nend)
             //detect select
             else
                 onSelectionChange(
