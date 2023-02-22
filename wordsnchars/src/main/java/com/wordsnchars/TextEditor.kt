@@ -53,28 +53,23 @@ class TextEditor(
 
         //detect change of modifier and reset start point and length of spans
         viewModel.highlightColor.onEach {
-            textWatcher.currentSpansStarts[BackgroundColorSpan::class.java] = editText.selectionStart
-            textWatcher.insertLength[BackgroundColorSpan::class.java] =
-                editText.run { selectionEnd - selectionStart }
+            val span = BackgroundColorSpan(it)
+            onValueUpdate(span)
         }.launchIn(viewModel.viewModelScope)
 
         viewModel.style.onEach {
-            textWatcher.currentSpansStarts[StyleSpan::class.java] = editText.selectionStart
-            textWatcher.insertLength[StyleSpan::class.java] =
-                editText.run { selectionEnd - selectionStart }
+            val span = BackgroundColorSpan(it)
+            onValueUpdate(span)
         }.launchIn(viewModel.viewModelScope)
 
         viewModel.fontSizeMultiplier.onEach {
-            textWatcher.currentSpansStarts[RelativeSizeSpan::class.java] = editText.selectionStart
-            textWatcher.insertLength[RelativeSizeSpan::class.java] =
-                editText.run { selectionEnd - selectionStart }
-
+            val span = RelativeSizeSpan(it)
+            onValueUpdate(span)
         }.launchIn(viewModel.viewModelScope)
 
         viewModel.underlined.onEach {
-            textWatcher.currentSpansStarts[UnderlineSpan::class.java] = editText.selectionStart
-            textWatcher.insertLength[UnderlineSpan::class.java] =
-                editText.run { selectionEnd - selectionStart }
+            val span = UnderlineSpan()
+            if (it) onValueUpdate(span)
         }.launchIn(viewModel.viewModelScope)
 
     }
@@ -93,6 +88,18 @@ class TextEditor(
         }
         textWatcher.triggered = false
 
+    }
+
+    private fun onValueUpdate(span: Any){
+        textWatcher.currentSpansStarts[span::class.java] =
+            editText.selectionStart
+        textWatcher.insertLength[span::class.java] =
+            editText.run { selectionEnd - selectionStart }
+        if (textWatcher.insertLength[span::class.java] != 0) {
+            //should test if this line doesn't cause any problems, because seems very scary
+            textWatcher.start = 0
+            textWatcher.handleModifier(editText.text, span)
+        }
     }
 
     private fun onSpanDelete(span: Any?, border: Border): Unit {

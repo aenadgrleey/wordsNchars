@@ -55,6 +55,9 @@ class Border(val start: Int, val end: Int) {
         return super.equals(other)
     }
 
+    operator fun plus(delta: Int): Border {
+        return Border(this.start + delta, this.end + delta)
+    }
 }
 
 /**
@@ -70,4 +73,4 @@ infix fun Int.outside(border: Border): Boolean {
 
 }
 
-class ImproperBordersException(override val message: String?): Exception()
+class ImproperBordersException(override val message: String?) : Exception()
