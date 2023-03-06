@@ -1,14 +1,15 @@
 package com.wordsnchars
 
-import android.graphics.Paint.Style
+import android.graphics.Color
 import android.graphics.Typeface
 import android.text.style.BackgroundColorSpan
 import android.text.style.RelativeSizeSpan
 import android.text.style.StyleSpan
-import android.text.style.SubscriptSpan
-import android.text.style.SuperscriptSpan
 import android.text.style.UnderlineSpan
 import androidx.lifecycle.ViewModel
+import com.wordsnchars.text_editor.core.custom_spans.noscriptionFlag
+import com.wordsnchars.text_editor.core.custom_spans.subscriptionFlag
+import com.wordsnchars.text_editor.core.custom_spans.superscriptionFlag
 import com.wordsnchars.text_editor.utils.Border
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -38,9 +39,15 @@ class ViewModelTextEditor : ViewModel() {
     }
 
     //font size modifier routine
+    private var _sized = MutableStateFlow(false)
+    val sized get() = _sized.asStateFlow()
     private var _fontSizeMultiplier = MutableStateFlow(1F)
     val fontSizeMultiplier get() = _fontSizeMultiplier.asStateFlow()
-    fun setModifier(modifier: Float): Boolean {
+    fun sizedToggle() {
+        _sized.value = !_sized.value
+    }
+
+    fun sizeChange(modifier: Float): Boolean {
         return if (modifier in 0.5..2.5) {
             _fontSizeMultiplier.value = modifier
             true
@@ -50,11 +57,12 @@ class ViewModelTextEditor : ViewModel() {
     //highlight modifier routines
     private var _highlighted = MutableStateFlow(false)
     val highlighted get() = _highlighted.asStateFlow()
-    private var _highlightColor = MutableStateFlow(16777215)
+    private var _highlightColor = MutableStateFlow(Color.parseColor("#80BB86FC"))
     val highlightColor get() = _highlightColor.asStateFlow()
     fun highlightToggle() {
         _highlighted.value = !_highlighted.value
     }
+
 
     fun highlightColorChange(color: Int): Boolean {
         _highlightColor.value = color
@@ -83,20 +91,31 @@ class ViewModelTextEditor : ViewModel() {
     val styled = _styled.asStateFlow()
     private var _style = MutableStateFlow(Typeface.NORMAL)
     val style get() = _style.asStateFlow()
-    fun styleChange(style: Int): Boolean {
-        return if (style in 0..3) {
-            _style.value = style
-            true
-        } else false
+    fun styledToggle() {
+        _styled.value = !_styled.value
     }
 
-    private var _scription = MutableStateFlow<Any?>(null)
+    fun styleChange(style: Int) {
+        if (style in 0..3) _style.value = style
+    }
+
+
+    private var _scripted = MutableStateFlow(false)
+    val scripted get() = _scripted.asStateFlow()
+    private var _scription = MutableStateFlow(noscriptionFlag)
     val scription get() = _scription.asStateFlow()
-    fun scriptionChange(scriptionSpan: Any?): Boolean {
-        return if (scriptionSpan == null || scriptionSpan::class.java == SuperscriptSpan::class.java || scriptionSpan::class.java == SubscriptSpan::class.java) {
-            _scription.value = scriptionSpan
-            true
-        } else false
+    fun scriptedToggle() {
+        _scripted.value = !_scripted.value
+    }
+
+    fun scriptionChange(scriptionType: Int): Boolean {
+        if (scriptionType == subscriptionFlag
+            || scriptionType == superscriptionFlag
+            || scriptionType == noscriptionFlag) {
+            _scription.value = scriptionType
+            return true
+        }
+        return false
     }
 
 }

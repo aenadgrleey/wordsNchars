@@ -69,7 +69,7 @@ internal class SizeSelectFragment : Fragment() {
                     return
                 }
 
-                viewModel.setModifier((modifiers[carousel.getCurrentPosition()] as MultiplierModel).multiplier)
+                viewModel.sizeChange((modifiers[carousel.getCurrentPosition()] as MultiplierModel).multiplier)
             }
             override fun onScroll(dx: Int, dy: Int) {}
         })

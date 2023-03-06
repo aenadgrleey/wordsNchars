@@ -2,10 +2,12 @@ package com.wordsnchars.text_editor.core
 
 import android.text.Editable
 import android.text.TextWatcher
-import android.text.style.BackgroundColorSpan
+import android.text.style.*
 import android.util.Log
 import com.wordsnchars.ViewModelTextEditor
 import com.wordsnchars.supportedSpans
+import com.wordsnchars.text_editor.core.custom_spans.CustomUnderlineSpan
+import com.wordsnchars.text_editor.core.custom_spans.ScriptionSpan
 import com.wordsnchars.text_editor.utils.createGap
 import com.wordsnchars.text_editor.utils.setSpan
 import com.wordsnchars.text_editor.utils.*
@@ -18,7 +20,7 @@ class TextWatcherTextEditor(
 
     private val TAG = "TextWatcher"
 
-    private val symbolThatSystemTreatsAsEndOfInsert = listOf(' ', ',')
+    private val symbolThatSystemTreatsAsEndOfInsert = listOf(' ', ',', ';', '.', ';')
     var triggered = false
 
     private var backspacePressed = false
@@ -84,10 +86,11 @@ class TextWatcherTextEditor(
         //starting to applying spans
         if (normalHandle) {
             handleModifier(s, BackgroundColorSpan(viewModel.highlightColor.value))
-//        s.handleModifier(StyleSpan(viewModel.style.value))
-//        s.handleModifier(RelativeSizeSpan(viewModel.fontSizeMultiplier.value))
-//        if (viewModel.underlined.value) s.handleModifier(UnderlineSpan())
-//        if (viewModel.strikeThrough) s.handleModifier(StrikethroughSpan())
+            handleModifier(s, StyleSpan(viewModel.style.value))
+            handleModifier(s, RelativeSizeSpan(viewModel.fontSizeMultiplier.value))
+            if (viewModel.underlined.value) handleModifier(s, CustomUnderlineSpan())
+            if (viewModel.scripted.value) handleModifier(s, ScriptionSpan(viewModel.scription.value))
+            if (viewModel.strikeThrough) handleModifier(s, StrikethroughSpan())
         }
     }
 
@@ -104,7 +107,7 @@ class TextWatcherTextEditor(
 
         Log.v(
             TAG,
-            "predicted border: $spanBorder len: ${text.length} cursor pos: $cursorPosition and $start pred start: $predictedSpanStart  delta: $delta"
+            "${associatedSpan::class.java} predicted border: $spanBorder len: ${text.length} cursor pos: $cursorPosition and $start pred start: $predictedSpanStart  delta: $delta"
         )
 
         restoreCached(
@@ -152,7 +155,6 @@ class TextWatcherTextEditor(
                 )
             }
             viewModel.previouslySetSpans[spanType]!!.remove(this)
-
         }
     }
 

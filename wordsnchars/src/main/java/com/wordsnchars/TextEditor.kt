@@ -12,6 +12,8 @@ import androidx.lifecycle.viewModelScope
 import com.wordsnchars.text_editor.core.RemovalWatcher
 import com.wordsnchars.text_editor.core.SelectionWatcher
 import com.wordsnchars.text_editor.core.TextWatcherTextEditor
+import com.wordsnchars.text_editor.core.custom_spans.CustomUnderlineSpan
+import com.wordsnchars.text_editor.core.custom_spans.ScriptionSpan
 import com.wordsnchars.text_editor.utils.Border
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -21,7 +23,8 @@ val supportedSpans =
     listOf(
         BackgroundColorSpan::class.java,
         StyleSpan::class.java,
-        UnderlineSpan::class.java,
+        CustomUnderlineSpan::class.java,
+        ScriptionSpan::class.java,
         RelativeSizeSpan::class.java
     )
 
@@ -58,7 +61,7 @@ class TextEditor(
         }.launchIn(viewModel.viewModelScope)
 
         viewModel.style.onEach {
-            val span = BackgroundColorSpan(it)
+            val span = StyleSpan(it)
             onValueUpdate(span)
         }.launchIn(viewModel.viewModelScope)
 
@@ -70,6 +73,11 @@ class TextEditor(
         viewModel.underlined.onEach {
             val span = UnderlineSpan()
             if (it) onValueUpdate(span)
+        }.launchIn(viewModel.viewModelScope)
+
+        viewModel.scription.onEach {
+            val span = ScriptionSpan(it)
+            onValueUpdate(span)
         }.launchIn(viewModel.viewModelScope)
 
     }

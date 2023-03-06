@@ -2,21 +2,21 @@ package com.wordsnchars.ui_xml
 
 import android.graphics.Typeface.*
 import android.os.Bundle
-import android.text.style.SubscriptSpan
-import android.text.style.SuperscriptSpan
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.viewModelScope
 import androidx.navigation.fragment.findNavController
 import com.wordsnchars.R
-import com.wordsnchars.databinding.TextEditorHomeBinding
 import com.wordsnchars.ViewModelTextEditor
-
+import com.wordsnchars.databinding.TextEditorHomeBinding
+import com.wordsnchars.text_editor.core.custom_spans.subscriptionFlag
+import com.wordsnchars.text_editor.core.custom_spans.superscriptionFlag
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.launch
 
 internal class TextEditorHome : Fragment() {
     private lateinit var binding: TextEditorHomeBinding
@@ -43,17 +43,17 @@ internal class TextEditorHome : Fragment() {
         binding.underlined.setOnClickListener {
             viewModel.underlinedToggle()
         }
-        lifecycleScope.launchWhenStarted {
+        viewModel.viewModelScope.launch {
             viewModel.fontSizeMultiplier.onEach { modifier ->
                 binding.size.text = modifier.toString()
             }.collect()
         }
-        lifecycleScope.launchWhenStarted {
+        viewModel.viewModelScope.launch {
             viewModel.highlightColor.onEach { color ->
                 binding.highlight.setBackgroundColor(color)
             }.collect()
         }
-        lifecycleScope.launchWhenStarted {
+        viewModel.viewModelScope.launch {
             viewModel.underlined.onEach { toggle ->
                 when (toggle) {
                     true -> binding.underlined.background =
@@ -63,7 +63,7 @@ internal class TextEditorHome : Fragment() {
                 }
             }.collect()
         }
-        lifecycleScope.launchWhenStarted {
+        viewModel.viewModelScope.launch {
             viewModel.style.onEach { style ->
                 when (style) {
                     NORMAL -> {
@@ -86,16 +86,16 @@ internal class TextEditorHome : Fragment() {
             }.collect()
         }
 
-        lifecycleScope.launchWhenStarted {
-            viewModel.scription.onEach { scription ->
+        viewModel.viewModelScope.launch {
+                viewModel.scription.onEach { scription ->
                 if (scription == null) {
                     binding.scription.text = "N"
                 } else {
-                    when (scription::class.java) {
-                        SuperscriptSpan::class.java -> {
+                    when (scription) {
+                        superscriptionFlag -> {
                             binding.scription.text = "UP"
                         }
-                        SubscriptSpan::class.java -> {
+                        subscriptionFlag -> {
                             binding.scription.text = "DW"
                         }
                     }

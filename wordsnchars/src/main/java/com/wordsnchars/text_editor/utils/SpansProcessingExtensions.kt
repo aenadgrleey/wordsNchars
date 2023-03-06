@@ -5,6 +5,8 @@ import android.text.style.BackgroundColorSpan
 import android.text.style.RelativeSizeSpan
 import android.text.style.StyleSpan
 import android.text.style.UnderlineSpan
+import com.wordsnchars.text_editor.core.custom_spans.CustomUnderlineSpan
+import com.wordsnchars.text_editor.core.custom_spans.ScriptionSpan
 
 
 /**
@@ -25,7 +27,12 @@ fun Any.copySpan(): Any {
         return RelativeSizeSpan(multiplier)
     }
 
-    if (this::class.java == UnderlineSpan::class.java) return UnderlineSpan()
+    if (this::class.java == ScriptionSpan::class.java){
+        val scriptionType = (this as ScriptionSpan).scriptionType
+        return ScriptionSpan(scriptionType)
+    }
+
+    if (this::class.java == CustomUnderlineSpan::class.java) return UnderlineSpan()
 
     throw Exception("Tried to copy unsupported span ${this}")
 }
@@ -34,6 +41,7 @@ fun Any.copySpan(): Any {
  *compares and returns true if span has same attributes as the one being compared with
  */
 fun Any.hasSameAttributes(spanToCompare: Any): Boolean {
+    if (this::class.java != spanToCompare::class.java) return false
     if (this::class.java == BackgroundColorSpan::class.java
         && spanToCompare::class.java == BackgroundColorSpan::class.java
     ) return (this as BackgroundColorSpan).backgroundColor == (spanToCompare as BackgroundColorSpan).backgroundColor
@@ -43,7 +51,10 @@ fun Any.hasSameAttributes(spanToCompare: Any): Boolean {
     if (this::class.java == RelativeSizeSpan::class.java
         && spanToCompare::class.java == RelativeSizeSpan::class.java
     ) return (this as RelativeSizeSpan).sizeChange == (spanToCompare as RelativeSizeSpan).sizeChange
-    if (this::class.java == UnderlineSpan::class.java
+    if (this::class.java == ScriptionSpan::class.java
+        && spanToCompare::class.java == ScriptionSpan::class.java)
+        return (this as ScriptionSpan).scriptionType == (spanToCompare as ScriptionSpan).scriptionType
+    if (this::class.java == CustomUnderlineSpan::class.java
         && spanToCompare::class.java == UnderlineSpan::class.java
     ) return true
     throw Exception("Tried to compare unsupported spans $this $spanToCompare")

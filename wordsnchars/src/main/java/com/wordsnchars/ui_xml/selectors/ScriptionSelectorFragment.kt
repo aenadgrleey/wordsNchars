@@ -11,6 +11,9 @@ import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.wordsnchars.databinding.TextEditorScriptionSelectBinding
 import com.wordsnchars.ViewModelTextEditor
+import com.wordsnchars.text_editor.core.custom_spans.noscriptionFlag
+import com.wordsnchars.text_editor.core.custom_spans.subscriptionFlag
+import com.wordsnchars.text_editor.core.custom_spans.superscriptionFlag
 
 internal class ScriptionSelectorFragment : Fragment() {
     private lateinit var binding: TextEditorScriptionSelectBinding
@@ -28,15 +31,15 @@ internal class ScriptionSelectorFragment : Fragment() {
         binding = TextEditorScriptionSelectBinding.inflate(inflater)
 
         binding.normal.setOnClickListener {
-            viewModel.scriptionChange(null)
+            viewModel.scriptionChange(noscriptionFlag)
             findNavController().navigateUp()
         }
         binding.subscription.setOnClickListener {
-            viewModel.scriptionChange(SubscriptSpan())
+            viewModel.scriptionChange(subscriptionFlag)
             findNavController().navigateUp()
         }
         binding.superscription.setOnClickListener {
-            viewModel.scriptionChange(SuperscriptSpan())
+            viewModel.scriptionChange(superscriptionFlag)
             findNavController().navigateUp()
         }
         return binding.root
