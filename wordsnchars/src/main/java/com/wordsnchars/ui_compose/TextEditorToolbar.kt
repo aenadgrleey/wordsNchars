@@ -2,6 +2,7 @@ package com.wordsnchars.ui_compose
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
@@ -15,6 +16,7 @@ import com.wordsnchars.ui_compose.selectors.ScriptionSelector
 import com.wordsnchars.ui_compose.selectors.SizeSelector
 import com.wordsnchars.ui_compose.selectors.StyleSelector
 import com.wordsnchars.ui_compose.ui.theme.WordsNcharsTheme
+import com.wordsnchars.ui_compose.utils.ToolbarSurface
 
 @ExperimentalFoundationApi
 @Preview
@@ -22,7 +24,7 @@ import com.wordsnchars.ui_compose.ui.theme.WordsNcharsTheme
 fun Toolbar(viewModelTextEditor: ViewModelTextEditor = ViewModelTextEditor()) {
     val navController = rememberNavController()
     val directions = object : TextEditorToolbarDirections {
-        override fun navigateToColorSelector(){
+        override fun navigateToColorSelector() {
             navController.navigate("color_selector")
         }
 
@@ -43,32 +45,38 @@ fun Toolbar(viewModelTextEditor: ViewModelTextEditor = ViewModelTextEditor()) {
         }
     }
     WordsNcharsTheme {
-        NavHost(
-            modifier = Modifier.fillMaxSize(),
-            navController = navController,
-            startDestination = "home"
-        ) {
-            composable("home") {
-                ToolbarHome(viewModelTextEditor = viewModelTextEditor, directions = directions)
-            }
-            composable("style_selector"){
-                StyleSelector(viewModelTextEditor::styleChange, directions::navigateUp)
-            }
-            composable("size_selector"){
-                SizeSelector(current = viewModelTextEditor.fontSizeMultiplier.collectAsState(), sizeSet = viewModelTextEditor::sizeChange, navigateUp = directions::navigateUp)
-            }
-            composable("color_selector"){
-                ColorSelector(viewModelTextEditor::highlightColorChange, directions::navigateUp)
-            }
-            composable("scription_selector"){
-                ScriptionSelector(viewModelTextEditor::scriptionChange, directions::navigateUp)
+        ToolbarSurface {
+
+            NavHost(
+                modifier = Modifier.fillMaxWidth(),
+                navController = navController,
+                startDestination = "home"
+            ) {
+                composable("home") {
+                    ToolbarHome(viewModelTextEditor = viewModelTextEditor, directions = directions)
+                }
+                composable("style_selector") {
+                    StyleSelector(viewModelTextEditor::styleChange, directions::navigateUp)
+                }
+                composable("size_selector") {
+                    SizeSelector(
+                        current = viewModelTextEditor.fontSizeMultiplier.collectAsState(),
+                        sizeSet = viewModelTextEditor::sizeChange,
+                        navigateUp = directions::navigateUp
+                    )
+                }
+                composable("color_selector") {
+                    ColorSelector(viewModelTextEditor::highlightColorChange, directions::navigateUp)
+                }
+                composable("scription_selector") {
+                    ScriptionSelector(viewModelTextEditor::scriptionChange, directions::navigateUp)
+                }
             }
         }
-
     }
 }
 
-interface TextEditorToolbarDirections{
+interface TextEditorToolbarDirections {
     fun navigateToStyleSelector()
     fun navigateToColorSelector()
     fun navigateToSizeSelector()

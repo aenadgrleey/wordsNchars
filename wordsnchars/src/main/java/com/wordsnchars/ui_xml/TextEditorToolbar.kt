@@ -5,6 +5,7 @@ import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.widget.RelativeLayout
 import com.wordsnchars.R
+import com.wordsnchars.databinding.TextEditorHomeBinding
 
 class TextEditorToolbar(context: Context, attributes: AttributeSet) :
     RelativeLayout(context, attributes) {

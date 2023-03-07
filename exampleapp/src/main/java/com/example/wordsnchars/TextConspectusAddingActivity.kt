@@ -17,7 +17,7 @@ class TextConspectusAddingActivity : AppCompatActivity() {
         setContentView(binding.root as View)
         setSupportActionBar(binding.toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        supportActionBar?.setHomeAsUpIndicator(com.wordsnchars.R.drawable.baseline_close_24)
+        supportActionBar?.setHomeAsUpIndicator(R.drawable.baseline_close_24)
         val viewModelTextEditor : ViewModelTextEditor by viewModels()
         TextEditor(viewModelTextEditor, binding.editText)
     }

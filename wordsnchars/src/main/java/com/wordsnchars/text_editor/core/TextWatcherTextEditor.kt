@@ -85,12 +85,14 @@ class TextWatcherTextEditor(
     override fun afterTextChanged(s: Editable) {
         //starting to applying spans
         if (normalHandle) {
-            handleModifier(s, BackgroundColorSpan(viewModel.highlightColor.value))
-            handleModifier(s, StyleSpan(viewModel.style.value))
-            handleModifier(s, RelativeSizeSpan(viewModel.fontSizeMultiplier.value))
-            if (viewModel.underlined.value) handleModifier(s, CustomUnderlineSpan())
-            if (viewModel.scripted.value) handleModifier(s, ScriptionSpan(viewModel.scription.value))
-            if (viewModel.strikeThrough) handleModifier(s, StrikethroughSpan())
+            with(viewModel) {
+                if (highlighted.value) handleModifier(s, BackgroundColorSpan(highlightColor.value))
+                if (styled.value) handleModifier(s, StyleSpan(style.value))
+                if (sized.value) handleModifier(s, RelativeSizeSpan(fontSizeMultiplier.value))
+                if (viewModel.underlined.value) handleModifier(s, CustomUnderlineSpan())
+                if (viewModel.scripted.value) handleModifier(s, ScriptionSpan(scription.value))
+                if (strikeThrough) handleModifier(s, StrikethroughSpan())
+            }
         }
     }
 
