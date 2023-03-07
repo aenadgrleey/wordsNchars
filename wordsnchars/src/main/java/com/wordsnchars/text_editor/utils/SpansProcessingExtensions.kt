@@ -32,7 +32,10 @@ fun Any.copySpan(): Any {
         return ScriptionSpan(scriptionType)
     }
 
-    if (this::class.java == CustomUnderlineSpan::class.java) return UnderlineSpan()
+    if (this::class.java == CustomUnderlineSpan::class.java) {
+        val underlined = (this as CustomUnderlineSpan).underlined
+        return CustomUnderlineSpan(underlined)
+    }
 
     throw Exception("Tried to copy unsupported span ${this}")
 }
@@ -55,8 +58,8 @@ fun Any.hasSameAttributes(spanToCompare: Any): Boolean {
         && spanToCompare::class.java == ScriptionSpan::class.java)
         return (this as ScriptionSpan).scriptionType == (spanToCompare as ScriptionSpan).scriptionType
     if (this::class.java == CustomUnderlineSpan::class.java
-        && spanToCompare::class.java == UnderlineSpan::class.java
-    ) return true
+        && spanToCompare::class.java == CustomUnderlineSpan::class.java
+    ) return (this as CustomUnderlineSpan).underlined == (spanToCompare as CustomUnderlineSpan).underlined
     throw Exception("Tried to compare unsupported spans $this $spanToCompare")
 }
 

@@ -15,6 +15,7 @@ import com.wordsnchars.text_editor.core.TextWatcherTextEditor
 import com.wordsnchars.text_editor.core.custom_spans.CustomUnderlineSpan
 import com.wordsnchars.text_editor.core.custom_spans.ScriptionSpan
 import com.wordsnchars.text_editor.utils.Border
+import kotlinx.coroutines.flow.last
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 
@@ -55,31 +56,53 @@ class TextEditor(
         )
 
         //detect change of modifier and reset start point and length of spans
-        viewModel.highlightColor.onEach {
-            val span = BackgroundColorSpan(it)
-            onValueUpdate(span)
-        }.launchIn(viewModel.viewModelScope)
+        viewModel.run {
+            highlightColor.onEach {
+                val span = BackgroundColorSpan(it)
+                onValueUpdate(span)
+            }.launchIn(viewModelScope)
 
-        viewModel.style.onEach {
-            val span = StyleSpan(it)
-            onValueUpdate(span)
-        }.launchIn(viewModel.viewModelScope)
+            highlighted.onEach {
+                val span = BackgroundColorSpan(highlightColor.value)
+                onValueUpdate(span)
+            }.launchIn(viewModelScope)
 
-        viewModel.fontSizeMultiplier.onEach {
-            val span = RelativeSizeSpan(it)
-            onValueUpdate(span)
-        }.launchIn(viewModel.viewModelScope)
+            style.onEach {
+                val span = StyleSpan(it)
+                onValueUpdate(span)
+            }.launchIn(viewModelScope)
 
-        viewModel.underlined.onEach {
-            val span = UnderlineSpan()
-            if (it) onValueUpdate(span)
-        }.launchIn(viewModel.viewModelScope)
+            styled.onEach {
+                val span = StyleSpan(style.value)
+                onValueUpdate(span)
+            }.launchIn(viewModelScope)
 
-        viewModel.scription.onEach {
-            val span = ScriptionSpan(it)
-            onValueUpdate(span)
-        }.launchIn(viewModel.viewModelScope)
+            fontSizeMultiplier.onEach {
+                val span = RelativeSizeSpan(it)
+                onValueUpdate(span)
+            }.launchIn(viewModelScope)
 
+            sized.onEach {
+                val span = RelativeSizeSpan(fontSizeMultiplier.value)
+                onValueUpdate(span)
+            }.launchIn(viewModelScope)
+
+            underlined.onEach {
+                val span = UnderlineSpan()
+                if (it) onValueUpdate(span)
+            }.launchIn(viewModelScope)
+
+            scription.onEach {
+                val span = ScriptionSpan(it)
+                onValueUpdate(span)
+            }.launchIn(viewModelScope)
+
+            scripted.onEach {
+                val span = ScriptionSpan(scription.value)
+                onValueUpdate(span)
+            }.launchIn(viewModelScope)
+
+        }
     }
 
     private fun onCursorChange(cursorPosition: Int): Unit {
@@ -98,7 +121,7 @@ class TextEditor(
 
     }
 
-    private fun onValueUpdate(span: Any){
+    private fun onValueUpdate(span: Any) {
         textWatcher.currentSpansStarts[span::class.java] =
             editText.selectionStart
         textWatcher.insertLength[span::class.java] =

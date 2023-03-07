@@ -1,13 +1,17 @@
 package com.wordsnchars.text_editor.core
 
+import android.graphics.Typeface
 import android.text.Editable
 import android.text.TextWatcher
 import android.text.style.*
 import android.util.Log
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.toArgb
 import com.wordsnchars.ViewModelTextEditor
 import com.wordsnchars.supportedSpans
 import com.wordsnchars.text_editor.core.custom_spans.CustomUnderlineSpan
 import com.wordsnchars.text_editor.core.custom_spans.ScriptionSpan
+import com.wordsnchars.text_editor.core.custom_spans.noscriptionFlag
 import com.wordsnchars.text_editor.utils.createGap
 import com.wordsnchars.text_editor.utils.setSpan
 import com.wordsnchars.text_editor.utils.*
@@ -86,12 +90,11 @@ class TextWatcherTextEditor(
         //starting to applying spans
         if (normalHandle) {
             with(viewModel) {
-                if (highlighted.value) handleModifier(s, BackgroundColorSpan(highlightColor.value))
-                if (styled.value) handleModifier(s, StyleSpan(style.value))
-                if (sized.value) handleModifier(s, RelativeSizeSpan(fontSizeMultiplier.value))
-                if (viewModel.underlined.value) handleModifier(s, CustomUnderlineSpan())
-                if (viewModel.scripted.value) handleModifier(s, ScriptionSpan(scription.value))
-                if (strikeThrough) handleModifier(s, StrikethroughSpan())
+                if (highlighted.value) handleModifier(s, BackgroundColorSpan(highlightColor.value)) else handleModifier(s, BackgroundColorSpan(Color.Transparent.toArgb()))
+                if (styled.value) handleModifier(s, StyleSpan(style.value)) else handleModifier(s, StyleSpan(Typeface.NORMAL))
+                if (sized.value) handleModifier(s, RelativeSizeSpan(fontSizeMultiplier.value)) else handleModifier(s, RelativeSizeSpan(1f))
+                if (underlined.value) handleModifier(s, CustomUnderlineSpan()) else handleModifier(s, CustomUnderlineSpan(false))
+                if (scripted.value) handleModifier(s, ScriptionSpan(scription.value)) else handleModifier(s, ScriptionSpan(noscriptionFlag))
             }
         }
     }
