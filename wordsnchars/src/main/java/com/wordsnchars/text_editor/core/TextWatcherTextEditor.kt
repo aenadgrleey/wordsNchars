@@ -90,11 +90,26 @@ class TextWatcherTextEditor(
         //starting to applying spans
         if (normalHandle) {
             with(viewModel) {
-                if (highlighted.value) handleModifier(s, BackgroundColorSpan(highlightColor.value)) else handleModifier(s, BackgroundColorSpan(Color.Transparent.toArgb()))
-                if (styled.value) handleModifier(s, StyleSpan(style.value)) else handleModifier(s, StyleSpan(Typeface.NORMAL))
-                if (sized.value) handleModifier(s, RelativeSizeSpan(fontSizeMultiplier.value)) else handleModifier(s, RelativeSizeSpan(1f))
-                if (underlined.value) handleModifier(s, CustomUnderlineSpan()) else handleModifier(s, CustomUnderlineSpan(false))
-                if (scripted.value) handleModifier(s, ScriptionSpan(scription.value)) else handleModifier(s, ScriptionSpan(noscriptionFlag))
+                if (highlighted.value) handleModifier(
+                    s,
+                    BackgroundColorSpan(highlightColor.value)
+                ) else handleModifier(s, BackgroundColorSpan(Color.Transparent.toArgb()))
+                if (styled.value) handleModifier(s, StyleSpan(style.value)) else handleModifier(
+                    s,
+                    StyleSpan(Typeface.NORMAL)
+                )
+                if (sized.value) handleModifier(
+                    s,
+                    RelativeSizeSpan(fontSizeMultiplier.value)
+                ) else handleModifier(s, RelativeSizeSpan(1f))
+                if (underlined.value) handleModifier(
+                    s,
+                    CustomUnderlineSpan(true)
+                ) else handleModifier(s, CustomUnderlineSpan(false))
+                if (scripted.value) handleModifier(
+                    s,
+                    ScriptionSpan(scription.value)
+                ) else handleModifier(s, ScriptionSpan(noscriptionFlag))
             }
         }
     }
@@ -134,8 +149,8 @@ class TextWatcherTextEditor(
 
         viewModel.previouslySetSpans[associatedSpan::class.java] = mutableListOf()
 
-        text.getSpans(0, text.length, BackgroundColorSpan::class.java).forEach {
-            Log.v(TAG, "string has: $it ${it.backgroundColor} ${text.getBorder(it)}")
+        text.getSpans(0, text.length, UnderlineSpan::class.java).forEach {
+            Log.v(TAG, "string has: $it ${text.getBorder(it)}")
         }
 
     }
@@ -153,7 +168,7 @@ class TextWatcherTextEditor(
                 && this.second outside untouchableZone
                 && !text.hasSimilar(this.first, this.second)
             ) {
-                Log.v(TAG, "setting from the cache casual span ${this.second}")
+                Log.v(TAG, "setting from the cache casual ${this.first} ${this.second}")
                 text.setSpan(
                     this.first,
                     this.second

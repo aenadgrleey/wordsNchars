@@ -12,9 +12,11 @@ import androidx.lifecycle.viewModelScope
 import com.wordsnchars.text_editor.core.RemovalWatcher
 import com.wordsnchars.text_editor.core.SelectionWatcher
 import com.wordsnchars.text_editor.core.TextWatcherTextEditor
+import com.wordsnchars.text_editor.core.UnderlineRestrictor
 import com.wordsnchars.text_editor.core.custom_spans.CustomUnderlineSpan
 import com.wordsnchars.text_editor.core.custom_spans.ScriptionSpan
 import com.wordsnchars.text_editor.utils.Border
+import com.wordsnchars.text_editor.utils.setSpan
 import kotlinx.coroutines.flow.last
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -45,15 +47,16 @@ class TextEditor(
                 this@TextEditor::onCursorChange,
                 this@TextEditor::onSelect
             ),
-            0,
-            0,
-            Spannable.SPAN_INCLUSIVE_INCLUSIVE
+            0, 0, Spannable.SPAN_INCLUSIVE_INCLUSIVE
         )
 
         editText.text.setSpan(
             RemovalWatcher(this@TextEditor::onSpanDelete),
             0, 0, Spannable.SPAN_INCLUSIVE_INCLUSIVE
         )
+
+        editText.text.setSpan(UnderlineRestrictor(),
+            0, 0, Spannable.SPAN_INCLUSIVE_INCLUSIVE)
 
         //detect change of modifier and reset start point and length of spans
         viewModel.run {
@@ -88,8 +91,8 @@ class TextEditor(
             }.launchIn(viewModelScope)
 
             underlined.onEach {
-                val span = UnderlineSpan()
-                if (it) onValueUpdate(span)
+                val span = CustomUnderlineSpan(it)
+                onValueUpdate(span)
             }.launchIn(viewModelScope)
 
             scription.onEach {
