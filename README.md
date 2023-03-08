@@ -1,7 +1,31 @@
 # wordsNchars
 That library allows you to you implement simple "half" rich-text editor out of box. 
 
-Currently it works only with EditTect component from XML.  
+Currently it works only with EditTect component from XML. 
+
+Example of using in Activity:
+
+```kotlin
+val viewModelTextEditor : ViewModelTextEditor by viewModels()
+TextEditor(viewModelTextEditor, binding.editText)
+```
+
+Example of using in Fragment:
+
+```kotlin
+val viewModelTextEditor : ViewModelTextEditor by activityViewModels()
+TextEditor(viewModelTextEditor, binding.editText)
+```
+Placing toolbar with XML tag:
+
+```xml
+<com.wordsnchars.ui_xml.TextEditorToolbar
+android:id="@+id/text_editor_toolbar"
+android:layout_width="match_parent"
+android:layout_height="wrap_content"
+android:visibility="visible"/>
+```
+
 
 Examples of currently available functions
 
