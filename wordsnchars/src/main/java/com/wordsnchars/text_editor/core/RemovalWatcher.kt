@@ -2,7 +2,6 @@ package com.wordsnchars.text_editor.core
 
 import android.text.SpanWatcher
 import android.text.Spannable
-import android.util.Log
 import com.wordsnchars.text_editor.utils.Border
 
 class RemovalWatcher(

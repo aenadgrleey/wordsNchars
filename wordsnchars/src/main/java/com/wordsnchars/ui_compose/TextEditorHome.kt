@@ -4,23 +4,20 @@ import android.graphics.Typeface.*
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.*
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.font.Typeface
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.wordsnchars.ViewModelTextEditor
-import com.wordsnchars.text_editor.core.custom_spans.noscriptionFlag
 import com.wordsnchars.text_editor.core.custom_spans.subscriptionFlag
 import com.wordsnchars.text_editor.core.custom_spans.superscriptionFlag
 import com.wordsnchars.ui_compose.utils.ToolbarButton
-import com.wordsnchars.ui_compose.utils.ToolbarSurface
 
 
 @Composable

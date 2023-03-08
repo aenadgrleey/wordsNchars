@@ -4,7 +4,6 @@ import android.text.Editable
 import android.text.style.BackgroundColorSpan
 import android.text.style.RelativeSizeSpan
 import android.text.style.StyleSpan
-import android.text.style.UnderlineSpan
 import com.wordsnchars.text_editor.core.custom_spans.CustomUnderlineSpan
 import com.wordsnchars.text_editor.core.custom_spans.ScriptionSpan
 

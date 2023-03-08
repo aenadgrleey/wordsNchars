@@ -1,8 +1,5 @@
 package com.wordsnchars.text_editor.utils
 
-import kotlin.math.max
-import kotlin.math.min
-
 /**
  * class to store values of start and end of something. was built as util tool for span using
  */

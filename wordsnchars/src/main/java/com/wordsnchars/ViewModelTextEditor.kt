@@ -1,6 +1,6 @@
 package com.wordsnchars
 
-import android.graphics.Color
+import android.graphics.Color.parseColor
 import android.graphics.Typeface
 import android.text.style.BackgroundColorSpan
 import android.text.style.RelativeSizeSpan
@@ -57,12 +57,11 @@ class ViewModelTextEditor : ViewModel() {
     //highlight modifier routines
     private var _highlighted = MutableStateFlow(false)
     val highlighted get() = _highlighted.asStateFlow()
-    private var _highlightColor = MutableStateFlow(Color.parseColor("#80BB86FC"))
+    private var _highlightColor = MutableStateFlow(parseColor("#52528C"))
     val highlightColor get() = _highlightColor.asStateFlow()
     fun highlightToggle() {
         _highlighted.value = !_highlighted.value
     }
-
 
     fun highlightColorChange(color: Int): Boolean {
         _highlightColor.value = color

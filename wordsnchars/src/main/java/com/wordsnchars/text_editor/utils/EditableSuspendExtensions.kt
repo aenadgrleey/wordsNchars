@@ -5,7 +5,6 @@ import android.text.Spannable
 import android.util.Log
 import kotlin.math.max
 import kotlin.math.min
-import kotlin.text.min as mi
 
 
 /**

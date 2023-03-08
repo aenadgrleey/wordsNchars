@@ -3,7 +3,10 @@ package com.wordsnchars.text_editor.core
 import android.graphics.Typeface
 import android.text.Editable
 import android.text.TextWatcher
-import android.text.style.*
+import android.text.style.BackgroundColorSpan
+import android.text.style.RelativeSizeSpan
+import android.text.style.StyleSpan
+import android.text.style.UnderlineSpan
 import android.util.Log
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
@@ -12,11 +15,8 @@ import com.wordsnchars.supportedSpans
 import com.wordsnchars.text_editor.core.custom_spans.CustomUnderlineSpan
 import com.wordsnchars.text_editor.core.custom_spans.ScriptionSpan
 import com.wordsnchars.text_editor.core.custom_spans.noscriptionFlag
-import com.wordsnchars.text_editor.utils.createGap
-import com.wordsnchars.text_editor.utils.setSpan
 import com.wordsnchars.text_editor.utils.*
 import kotlin.math.max
-import kotlin.math.min
 
 class TextWatcherTextEditor(
     private val viewModel: ViewModelTextEditor,

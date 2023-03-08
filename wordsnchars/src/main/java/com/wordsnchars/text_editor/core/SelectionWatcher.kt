@@ -3,7 +3,6 @@ package com.wordsnchars.text_editor.core
 import android.text.Selection
 import android.text.SpanWatcher
 import android.text.Spannable
-import android.widget.EditText
 
 class SelectionWatcher(
     val onCursorChange: (Int) -> Unit,

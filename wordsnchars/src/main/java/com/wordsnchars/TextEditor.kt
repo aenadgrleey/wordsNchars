@@ -1,11 +1,9 @@
 package com.wordsnchars
 
-import android.text.InputType
 import android.text.Spannable
 import android.text.style.BackgroundColorSpan
 import android.text.style.RelativeSizeSpan
 import android.text.style.StyleSpan
-import android.text.style.UnderlineSpan
 import android.util.Log
 import android.widget.EditText
 import androidx.lifecycle.viewModelScope
@@ -16,8 +14,6 @@ import com.wordsnchars.text_editor.core.UnderlineRestrictor
 import com.wordsnchars.text_editor.core.custom_spans.CustomUnderlineSpan
 import com.wordsnchars.text_editor.core.custom_spans.ScriptionSpan
 import com.wordsnchars.text_editor.utils.Border
-import com.wordsnchars.text_editor.utils.setSpan
-import kotlinx.coroutines.flow.last
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 
