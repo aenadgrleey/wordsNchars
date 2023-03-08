@@ -7,7 +7,7 @@ Examples of currently available functions
 
 Text stylling:
 
-![](https://github.com/aenadgrleey/wordsNchars/media/style_example.gif)
+![](https://github.com/aenadgrleey/wordsNchars/blob/main/media/style_example.gif)
 
 Text undrelining:
 
@@ -15,12 +15,12 @@ Text undrelining:
 
 Text highlighting:
 
-![](https://github.com/aenadgrleey/wordsNchars/media/color_example.gif)
+![](https://github.com/aenadgrleey/wordsNchars/blob/main/media/highlight_example.gif)
 
 Text sizing:
 
-![](https://github.com/aenadgrleey/wordsNchars/media/size_example.gif)
+![](https://github.com/aenadgrleey/wordsNchars/blob/main/media/underline_example.gif)
 
 Text "scription"ing (sub- and super-scription):
 
-![](https://github.com/aenadgrleey/wordsNchars/media/scription_example.gif)
+![](https://github.com/aenadgrleey/wordsNchars/blob/main/media/scription_example.gif)
