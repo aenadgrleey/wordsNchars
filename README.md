@@ -1,4 +1,6 @@
 # wordsNchars
+[![](https://jitpack.io/v/aenadgrleey/wordsNchars.svg)](https://jitpack.io/#aenadgrleey/wordsNchars)
+
 That library allows you to you implement simple "half" rich-text editor out of box. 
 
 Currently it works only with EditTect component from XML. 
@@ -24,6 +26,23 @@ android:id="@+id/text_editor_toolbar"
 android:layout_width="match_parent"
 android:layout_height="wrap_content"
 android:visibility="visible"/>
+```
+
+To include it in the project add this in the project build.gradle:
+```gradle
+allprojects {
+	repositories {
+		...
+		maven { url 'https://jitpack.io' }
+	}
+}
+```
+
+And this into module's(app's or library's) build.gradle:
+```gradle
+dependencies {
+        implementation 'com.github.aenadgrleey:wordsNchars:Tag'
+}
 ```
 
 
