@@ -54,7 +54,7 @@ Text stylling:
 
 Text undrelining:
 
-![](https://github.com/aenadgrleey/wordsNchars/media/undeline_example.gif)
+![](https://github.com/aenadgrleey/wordsNchars/blob/main/media/underline_example.gif)
 
 Text highlighting:
 
@@ -62,7 +62,7 @@ Text highlighting:
 
 Text sizing:
 
-![](https://github.com/aenadgrleey/wordsNchars/blob/main/media/underline_example.gif)
+![](https://github.com/aenadgrleey/wordsNchars/blob/main/media/size_example.gif)
 
 Text "scription"ing (sub- and super-scription):
 
