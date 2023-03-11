@@ -41,7 +41,7 @@ allprojects {
 And this into module's(app's or library's) build.gradle:
 ```gradle
 dependencies {
-        implementation 'com.github.aenadgrleey:wordsNchars:Tag'
+        implementation 'com.github.aenadgrleey:wordsNchars:v1.0.3'
 }
 ```
 
